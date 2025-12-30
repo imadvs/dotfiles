@@ -9,3 +9,8 @@ source ~/.local/share/omarchy/default/bash/rc
 #
 # Make an alias for invoking commands you use constantly
 # alias p='python'
+
+
+
+alias dots='cd ~/dotfiles && git add . && git commit -m "Update $(date)" && git push && cd -'
+alias pkm='cd ~/Documents/PKM && git pull && git add . && git commit -m "Update: $(date)" && git push && cd -'
