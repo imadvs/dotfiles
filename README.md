@@ -90,9 +90,3 @@ ls -la ~/.config/omarchy/themes/
 ## ✅ Finished!
 
 Your computer is now synced. Any wallpaper added to `~/dotfiles/ayaka/.config/omarchy/themes/ayaka/backgrounds/` will now automatically appear in your laptop's theme picker.
-
-```
-
-Now, try typing `readme` in your terminal. Does it open your new instructions?
-
-```
