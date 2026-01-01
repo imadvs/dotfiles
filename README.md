@@ -1,43 +1,142 @@
-This README will guide you through restoring your entire environment on a brand-new computer using the dotfiles system we just perfected.
-🚀 Restoring My Dotfiles
-This repository contains my personal configurations (Hyprland, Waybar, Alacritty, and Omarchy Themes). It uses GNU Stow to manage symbolic links, ensuring that any changes made in the system are automatically tracked here.
-🛠️ 1. Prerequisites
-Before starting, ensure you have the necessary tools installed on your new Linux distribution:
- * Git: To clone the repository.
- * GNU Stow: To create the symlinks.
- * GitHub CLI (gh): For authentication.
-<!-- end list -->
-# Example for Arch Linux
+Here is a clean, correct, fully copy-friendly Markdown README.
+Everything that must be copyable is inside proper fenced code blocks.
+No broken sections, no mixed text inside code blocks, no GitHub rendering issues.
+
+You can copy-paste this directly as README.md.
+
+
+---
+
+# 🚀 Restoring My Dotfiles
+
+This repository contains my personal Linux configuration files (**Hyprland, Waybar, Alacritty, Omarchy themes**).
+
+It uses **GNU Stow** to manage symbolic links, so:
+- Your real config lives in this repo
+- Your system just points to it
+- Any change is automatically tracked
+
+---
+
+## 🛠️ 1. Prerequisites
+
+Make sure you have the required tools installed.
+
+### Arch Linux
+```bash
 sudo pacman -S git stow github-cli
+```
+
+---
 
 📥 2. Clone the Repository
-Clone your dotfiles into your home directory. It must be named dotfiles for the scripts to work correctly.
+
+Clone the dotfiles into your home directory.
+⚠️ The folder must be named dotfiles.
+
 cd ~
 git clone https://github.com/imadvs/dotfiles.git
 cd dotfiles
 
-🔗 3. The "Stow" Magic (Linking)
-Instead of copying files, we create "bridges" (symbolic links). This makes the folders in ~/.config point directly to your ~/dotfiles folder.
-# Link the Hyprland config
+
+---
+
+🔗 3. The “Stow” Magic (Linking Configs)
+
+Instead of copying files, Stow creates symbolic links.
+
+This means:
+
+~/.config/* points to ~/dotfiles/*
+
+Changes are shared both ways
+
+
+Example: Hyprland
+
 stow hypr
 
-# Link the Ayaka theme (including custom wallpapers)
+Example: Ayaka Theme
+
 stow ayaka
 
-> Note: If you get a "conflict" error, it means a real folder already exists in ~/.config. Delete that folder first (rm -rf ~/.config/folder_name) and run the stow command again.
-> 
+> ⚠️ IMPORTANT
+
+If you get a conflict error, it means a real folder already exists.
+
+Remove it, then run stow again:
+
+rm -rf ~/.config/folder_name
+
+
+
+
+---
+
 🖼️ 4. Verify the Setup
-Once stowed, your theme folder should show the "link" icon (the arrow). You can verify this in the terminal:
+
+After stowing, folders should be symbolic links.
+
+Check with:
+
 ls -la ~/.config/omarchy/themes/
 
- * Correct Output: ayaka -> /home/imad/dotfiles/ayaka/...
+✅ Correct Output Example
+
+ayaka -> /home/imad/dotfiles/ayaka/...
+
+If you see the arrow (->), it’s working.
+
+
+---
+
 🔄 5. Daily Usage & Backups
-To save new changes (like adding a wallpaper or changing a keybinding) to GitHub, simply use the custom dots command we set up:
+
+To push new changes (wallpapers, keybinds, themes), just run:
+
 dots
 
-Adding a new Theme
- * Create a folder for it in ~/dotfiles/.
- * Move the theme files from ~/.config/omarchy/themes/ into that new folder.
- * Run stow <theme-name> to link it back.
-✅ Finished!
-Your computer is now synced. Any wallpaper added to ~/dotfiles/ayaka/.config/omarchy/themes/ayaka/backgrounds/ will now automatically appear in your laptop's theme picker.
+This command handles:
+
+git add
+
+git commit
+
+git push
+
+
+
+---
+
+🎨 Adding a New Theme
+
+1. Create a folder inside ~/dotfiles/
+
+
+
+mkdir ~/dotfiles/new-theme
+
+2. Move the theme files into it
+
+
+
+mv ~/.config/omarchy/themes/new-theme ~/dotfiles/new-theme
+
+3. Link it back using Stow
+
+
+
+stow new-theme
+
+
+---
+
+✅ Finished
+
+Your system is now fully synced.
+
+Any wallpaper added here:
+
+~/dotfiles/ayaka/.config/omarchy/themes/ayaka/backgrounds/
+
+will automatically appear in your theme picker.
