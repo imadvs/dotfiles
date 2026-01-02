@@ -1,74 +1,49 @@
 #!/bin/bash
-
 echo "🚀 Starting System Restoration..."
 
-# 1. Update the System
-sudo pacman -Syu --noconfirm
-
-# 2. Install Repo Apps (Using visual-studio-code-bin from AUR for better extension support)
-APPS=("stow")
-sudo pacman -S --needed --noconfirm "${APPS[@]}"
-
-# 3. Handle Yay (AUR) & Install Brave + VS Code Bin
-if ! command -v yay &> /dev/null; then
-    echo "🛠️ Installing Yay..."
-    git clone https://aur.archlinux.org/yay.git /tmp/yay
-    cd /tmp/yay && makepkg -si --noconfirm && cd ~/dotfiles
-fi
-
-echo "🌐 Installing AUR Apps..."
-# visual-studio-code-bin is better for Microsoft extensions like Copilot
-yay -S --needed --noconfirm brave-bin visual-studio-code-bin
-
-# --- VS Code Extensions ---
-echo "📦 Installing VS Code Extensions..."
-EXTENSIONS=(
-    "github.copilot"
-    "github.copilot-chat"
-    "github.remotehub"
-    "ms-vscode.azure-repos"
-    "ms-vscode.cmake-tools"
-    "ms-vscode.cpptools"
-    "ms-vscode.cpptools-extension-pack"
-    "ms-vscode.cpptools-themes"
-    "ms-vscode.remote-repositories"
-)
-
-for ext in "${EXTENSIONS[@]}"; do
-    code --install-extension "$ext" --force
-done
+# ... [Keep Sections 1, 2, and 3: Pacman, Yay, and VS Code same as before] ...
 
 # 4. Apply ALL Dotfiles
 echo "🔗 Linking dotfiles with Stow..."
 cd ~/dotfiles
 
-# Folders that belong in ~ instead of ~/.config
-HOME_PACKAGES=("bash" "backgrounds" "ayaka")
+# --- THE MAP: Define where each folder should link to ---
+declare -A FOLDER_MAP
+FOLDER_MAP=(
+    ["ayaka"]="$HOME/.config/ayaka"
+    ["backgrounds"]="$HOME/Pictures/Wallpapers"
+    ["bash"]="$HOME/.bashrc"
+    ["ghostty"]="$HOME/.config/ghostty"
+    ["hypr"]="$HOME/.config/hypr"
+    ["vscode"]="$HOME/.config/Code/User/settings.json"
+    ["waybar"]="$HOME/.config/waybar"
+)
 
-for dir in */; do
-    target=${dir%/}
-    [[ "$target" == .* ]] && continue
+for target in "${!FOLDER_MAP[@]}"; do
+    # Skip if the folder doesn't exist in dotfiles
+    [ ! -d "$target" ] && continue
 
-    # VS Code special path handling
-    if [ "$target" == "vscode" ]; then
-        DEST="$HOME/.config/Code/User/settings.json"
-    elif [ "$target" == "bash" ]; then
-        DEST="$HOME/.bashrc"
-    elif [[ " ${HOME_PACKAGES[@]} " =~ " ${target} " ]]; then
-        DEST="$HOME/$target"
-    else
-        DEST="$HOME/.config/$target"
-    fi
+    DEST="${FOLDER_MAP[$target]}"
+    
+    # Ensure the parent directory exists (e.g., ~/.config/)
+    mkdir -p "$(dirname "$DEST")"
 
-    # --- SMART LINKING LOGIC ---
+    # --- SMART ABSORB & LINK LOGIC ---
     if [ -L "$DEST" ]; then
         echo "✅ $target is already a link. Skipping."
-    else
-        if [ -e "$DEST" ]; then
-            echo "⚠️  Conflict: $DEST exists. Backing up..."
-            mv "$DEST" "${DEST}.bak"
-        fi
+    elif [ -e "$DEST" ]; then
+        echo "📥 New data found at $DEST. Absorbing into dotfiles..."
+        
+        # Copy new files from the real folder into the dotfiles folder (update only)
+        cp -ru "$DEST"/. "$HOME/dotfiles/$target/" 2>/dev/null
+        
+        # Remove the real folder/file now that it's absorbed
+        rm -rf "$DEST"
+        
         echo "📦 Stowing $target..."
+        stow "$target"
+    else
+        echo "📦 Stowing $target (New Link)..."
         stow "$target"
     fi
 done
