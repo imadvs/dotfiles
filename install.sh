@@ -1,13 +1,27 @@
 #!/bin/bash
 echo "🚀 Starting System Restoration..."
 
-# ... [Keep Sections 1, 2, and 3: Pacman, Yay, and VS Code same as before] ...
+# 1. Update the System
+sudo pacman -Syu --noconfirm
+
+# 2. Install Core Tools
+sudo pacman -S --needed --noconfirm stow
+
+# 3. Handle Yay & AUR Apps
+if ! command -v yay &> /dev/null; then
+    echo "🛠️ Installing Yay..."
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    cd /tmp/yay && makepkg -si --noconfirm && cd ~/dotfiles
+fi
+
+echo "🌐 Installing Browser & VS Code..."
+yay -S --needed --noconfirm brave-bin visual-studio-code-bin
 
 # 4. Apply ALL Dotfiles
 echo "🔗 Linking dotfiles with Stow..."
 cd ~/dotfiles
 
-# --- THE MAP: Define where each folder should link to ---
+# --- THE MAP: Tells the script EXACTLY where to check for links ---
 declare -A FOLDER_MAP
 FOLDER_MAP=(
     ["ayaka"]="$HOME/.config/ayaka"
@@ -20,27 +34,18 @@ FOLDER_MAP=(
 )
 
 for target in "${!FOLDER_MAP[@]}"; do
-    # Skip if the folder doesn't exist in dotfiles
     [ ! -d "$target" ] && continue
-
     DEST="${FOLDER_MAP[$target]}"
-    
-    # Ensure the parent directory exists (e.g., ~/.config/)
     mkdir -p "$(dirname "$DEST")"
 
-    # --- SMART ABSORB & LINK LOGIC ---
     if [ -L "$DEST" ]; then
         echo "✅ $target is already a link. Skipping."
     elif [ -e "$DEST" ]; then
         echo "📥 New data found at $DEST. Absorbing into dotfiles..."
-        
-        # Copy new files from the real folder into the dotfiles folder (update only)
+        # Copy newer files from real folder to dotfiles
         cp -ru "$DEST"/. "$HOME/dotfiles/$target/" 2>/dev/null
-        
-        # Remove the real folder/file now that it's absorbed
+        # Remove the real folder/file to make room for the link
         rm -rf "$DEST"
-        
-        echo "📦 Stowing $target..."
         stow "$target"
     else
         echo "📦 Stowing $target (New Link)..."
