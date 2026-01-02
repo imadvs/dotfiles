@@ -10,7 +10,9 @@ alias dots='cd ~/dotfiles && git add . && git commit -m "Update $(date)" && git 
 alias pkm='cd ~/Documents/PKM && git pull && git add . && git commit -m "Update: $(date)" && git push && cd -'
 alias reload='source ~/.bashrc && echo "♻️ Shell Reloaded"'
 
+# --- AUTOMATION FUNCTIONS ---
 
+# Track a new config: track <name> <path>
 track() {
     local folder_name=$1
     local target_path=$2
@@ -21,28 +23,26 @@ track() {
         return 1
     fi
 
-    # 1. Expand the tilde (~) to full path
+    # Expand ~ to full path and convert back to $HOME for file portability
     target_path="${target_path/#\~/$HOME}"
+    local portable_path="${target_path/#$HOME/\$HOME}"
 
     echo "📦 Tracking $folder_name at $target_path..."
 
-    # 2. Add to map.conf
-    echo "$folder_name=$target_path" >> ~/dotfiles/map.conf
-
-    # 3. Create the structure in dotfiles
+    # Add to map.conf and create folder
+    echo "$folder_name=$portable_path" >> ~/dotfiles/map.conf
     mkdir -p ~/dotfiles/"$folder_name"
 
-    # 4. Run 'up' to let the Absorb logic handle the rest
+    # Run up to finish the absorption and linking
     up
 }
 
-# --- THE MASTER UP FUNCTION ---
+# The Master Update Function
 up() {
     echo "🔄 Updating System..."
     sudo pacman -Syu --noconfirm
 
     echo "🧹 Cleaning Package Cache..."
-    # This specifically silences the fd 7 errors and handles the Y/n prompts automatically
     sudo pacman -Sc --noconfirm 2>/dev/null
     
     if command -v yay &> /dev/null; then
@@ -58,6 +58,7 @@ up() {
     cd - > /dev/null
     echo "✅ All systems updated and cleaned!"
 }
+
 # --- CUSTOM STARTUP (Welcome Screen) ---
 clear
 fastfetch --logo arch_small
