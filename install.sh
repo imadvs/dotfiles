@@ -5,61 +5,48 @@ echo "🚀 Starting System Restoration..."
 # 1. Update the System
 sudo pacman -Syu --noconfirm
 
-# 2. Install personal apps
-APPS=("stow" "brave" "code")
+# 2. Install personal apps (Changed 'brave' to 'brave-browser' for Arch)
+APPS=("stow" "brave-browser" "code")
 sudo pacman -S --needed --noconfirm "${APPS[@]}"
 
-# --- NEW: VS Code Extensions ---
+# --- VS Code Extensions ---
 echo "📦 Installing VS Code Extensions..."
-EXTENSIONS=(
-    "github.copilot"
-    "github.copilot-chat"
-    "github.remotehub"
-    "ms-vscode.azure-repos"
-    "ms-vscode.cmake-tools"
-    "ms-vscode.cpptools"
-    "ms-vscode.cpptools-extension-pack"
-    "ms-vscode.cpptools-themes"
-    "ms-vscode.remote-repositories"
-)
-
-for ext in "${EXTENSIONS[@]}"; do
-    code --install-extension "$ext" --force
-done
-# -------------------------------
+# ... (Keep your extensions loop here) ...
 
 # 3. Handle Yay (AUR)
-if ! command -v yay &> /dev/null; then
-    echo "🛠️ Installing Yay..."
-    git clone https://aur.archlinux.org/yay.git /tmp/yay
-    cd /tmp/yay && makepkg -si --noconfirm && cd ~/dotfiles
-fi
-
-# Ensure directories exist so stow doesn't link to the wrong place
-mkdir -p ~/Pictures/Wallpapers
+# ... (Keep your yay check here) ...
 
 # 4. Apply ALL Dotfiles
 echo "🔗 Linking dotfiles with Stow..."
 cd ~/dotfiles
 
+# Define packages that link to HOME instead of .config
+HOME_PACKAGES=("bash" "backgrounds")
+
 for dir in */; do
     target=${dir%/}
     
-    if [ "$target" != ".git" ]; then
-        # Check for conflicts in TWO places: Home and .config
-        # 1. Check ~/.config/folder (e.g., ~/.config/hypr)
-        if [ -d "$HOME/.config/$target" ] && [ ! -L "$HOME/.config/$target" ]; then
-            echo "⚠️  Conflict found at ~/.config/$target. Removing real folder..."
-            rm -rf "$HOME/.config/$target"
-        fi
+    # Ignore hidden folders like .git
+    [[ "$target" == .* ]] && continue
 
-        # 2. Check ~/folder (e.g., ~/Pictures)
-        if [ -d "$HOME/$target" ] && [ ! -L "$HOME/$target" ]; then
-            echo "⚠️  Conflict found at ~/$target. Removing real folder..."
-            rm -rf "$HOME/$target"
-        fi
+    # Determine where the link should go
+    if [[ " ${HOME_PACKAGES[@]} " =~ " ${target} " ]]; then
+        DEST="$HOME/$target"
+    else
+        DEST="$HOME/.config/$target"
+    fi
 
-        echo "Stowing $target..."
+    # --- SMART LINKING LOGIC ---
+    if [ -L "$DEST" ]; then
+        echo "✅ $target is already a link. Skipping."
+    else
+        if [ -e "$DEST" ]; then
+            echo "⚠️  Conflict: $DEST is a real folder/file. Backing up and linking..."
+            mv "$DEST" "${DEST}.bak"
+        fi
+        echo "📦 Stowing $target..."
         stow "$target"
     fi
 done
+
+echo "✅ All systems updated and cleaned!"
