@@ -15,3 +15,27 @@ source ~/.local/share/omarchy/default/bash/rc
 alias readme='nvim ~/dotfiles/README.md'
 alias dots='cd ~/dotfiles && git add . && git commit -m "Update $(date)" && git push && cd -'
 alias pkm='cd ~/Documents/PKM && git pull && git add . && git commit -m "Update: $(date)" && git push && cd -'
+
+
+up() {
+    echo "🔄 Updating System..."
+    sudo pacman -Syu --noconfirm
+
+    echo "🧹 Cleaning Package Cache..."
+    # Removes old versions of packages that are no longer installed
+    sudo pacman -Sc --noconfirm
+    
+    # If you use yay, this cleans the AUR cache too
+    if command -v yay &> /dev/null; then
+        yay -Sc --noconfirm
+    fi
+
+    echo "📂 Syncing Dotfiles..."
+    cd ~/dotfiles && git pull
+
+    echo "📦 Updating VS Code Extensions..."
+    ~/dotfiles/install.sh
+
+    echo "✅ All systems updated and cleaned!"
+    cd - > /dev/null
+}
