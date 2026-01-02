@@ -1,51 +1,67 @@
-Since your setup is now fully automated and professional, you need a **README.md** in your `~/dotfiles` folder. This acts as the "manual" for your system, making it easy for you (or anyone else) to understand how it works.
+# 🌌 Imad's Dotfiles (Omarchy Powered)
 
-Here is a clean, professional README tailored to your exact setup:
+A professional, fully automated Arch Linux environment built on the **Omarchy** framework. This repository manages system updates, AUR packages, VS Code extensions, and hardware-aware configurations using **GNU Stow**.
 
 ---
 
-# 🌌 Imad's Dotfiles
+## 🏗️ Framework & Tools
 
-A fully automated Arch Linux environment managed with **GNU Stow**. This repository handles system updates, AUR packages, VS Code extensions, and configuration syncing across machines.
+* **Base:** [Omarchy](https://www.google.com/search?q=https://github.com/omarchy) (Standardizing aliases and bash functions).
+* **Manager:** GNU Stow (Symlink farm manager).
+* **Terminal:** Ghostty.
+* **Shell:** Bash (Extended via personalized `.bashrc`).
+
+---
 
 ## 🚀 Key Features
 
-* **Smart Syncing**: The `up` command automatically links configurations and absorbs new local changes into the repository.
-* **VS Code Integration**: Auto-installs extensions and manages `settings.json`.
-* **AUR Support**: Integrated `yay` management for Brave Browser and VS Code.
-* **Safe Backups**: Automatically creates `.bak` files if conflicts occur.
+* **Omarchy Integration**: Sources default Omarchy bash environments while adding custom logic.
+* **Auto-Absorb Logic**: Local changes made in `~/.config` are automatically synced back to this repository during the update process.
+* **One-Command Maintenance**: The `up` function handles system upgrades, silent cache cleaning, and config re-linking.
+* **VS Code Sync**: Automates extension installation and `settings.json` management.
+
+---
 
 ## 🛠️ Custom Commands
 
-I have created two main aliases to manage this system:
-
 | Command | Description |
 | --- | --- |
-| `up` | Performs a full system upgrade, cleans cache, syncs git, and runs `install.sh`. |
+| `up` | Updates Pacman/AUR, cleans cache, pulls git changes, and runs `install.sh`. |
 | `dots` | Stages all changes, commits with a timestamp, and pushes to GitHub. |
+| `pkm` | Syncs Personal Knowledge Management (PKM) vault via Git. |
+| `readme` | Quick shortcut to edit this documentation. |
 
-## 📁 Repository Structure
+---
 
-Stow mimics the home directory structure. To add a new config, ensure it follows this pattern:
+## 📁 Mapping Structure
 
-```text
-~/dotfiles/
-├── hypr/
-│   └── .config/hypr/          # Links to ~/.config/hypr
-├── waybar/
-│   └── .config/waybar/        # Links to ~/.config/waybar
-└── bash/
-    └── .bashrc                # Links to ~/.bashrc
+The `install.sh` uses the following `FOLDER_MAP` to ensure symlink accuracy:
 
-```
+* `ayaka` → `~/.config/ayaka`
+* `hypr` → `~/.config/hypr`
+* `bash` → `~/.bashrc` (Sources Omarchy defaults)
+* `backgrounds` → `~/Pictures/Wallpapers`
+* `vscode` → `~/.config/Code/User/settings.json`
 
-## 💻 Installation (New Machine)
+---
 
-To restore this environment on a fresh Arch Linux installation:
+## 🖥️ System Status
+
+| Component | Specification |
+| --- | --- |
+| **OS** | Arch Linux (Omarchy) |
+| **Window Manager** | Hyprland |
+| **Terminal** | Ghostty |
+| **CPU** | [Insert CPU Model] |
+| **GPU** | [Insert GPU Model] |
+
+---
+
+## 💻 Installation
 
 1. **Clone the repo:**
 ```bash
-git clone https://github.com/YOUR_USERNAME/dotfiles.git ~/dotfiles
+git clone https://github.com/[YOUR_USERNAME]/dotfiles.git ~/dotfiles
 
 ```
 
@@ -59,31 +75,8 @@ chmod +x install.sh
 ```
 
 
+3. **Initialize Bash:**
+```bash
+source ~/.bashrc
 
-## 🔧 Maintenance
-
-If you add a new top-level folder to this repo, update the `FOLDER_MAP` inside `install.sh` to ensure the script knows the correct destination for the symbolic link.
-
----
-
-### 🚀 Next Step
-
-To create this file, run:
-`nvim ~/dotfiles/README.md`
-Paste the text above and save it. Then run `dots` to push your new documentation to GitHub!
-
-**Would you like me to help you add a "System Status" section to the README that shows your hardware specs?**
-
-## 🖥️ System Status
-Current hardware configuration powered by these dotfiles:
-
-| Component | Specification |
-| :--- | :--- |
-| **OS** | Arch Linux |
-| **Window Manager** | Hyprland |
-| **Terminal** | Ghostty |
-| **Shell** | Bash |
-| **CPU** | [Insert your CPU, e.g., Ryzen 7] |
-| **GPU** | [Insert your GPU, e.g., NVIDIA RTX 3060] |
-
-> **Pro Tip:** Run `fastfetch` in the terminal to see live hardware metrics.
+```
