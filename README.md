@@ -1,4 +1,4 @@
-Here is the complete, professional `README.md` for your repository. It combines the **Quick Start**, the **Safety Vault** logic, and the **Technical breakdown** so that any human or AI can manage your system.
+This is the finalized, professional `README.md` for your repository. It covers the **Quick Start** for new machines, the **Safety Vault** logic, and the technical breakdown of how your system handles apps, extensions, and configurations.
 
 ---
 
@@ -6,7 +6,7 @@ Here is the complete, professional `README.md` for your repository. It combines 
 
 ## 🚀 Quick Start (Fresh Install)
 
-If you are on a new machine, run these three commands to mirror your workstation:
+To mirror your workstation on a brand-new machine, run these three commands:
 
 ```bash
 git clone https://github.com/imadvs/dotfiles.git ~/dotfiles
@@ -19,13 +19,20 @@ source ~/.bashrc
 
 ## 🧠 System Philosophy
 
-This is a **Self-Absorbing Configuration Engine**. Instead of manual copying, the system detects local data, snapshots it for safety, and merges it into the cloud-synced repository automatically.
+This repository is a **Self-Absorbing Configuration Engine**. Instead of manual file management, the system dynamically detects local data, snapshots it for safety, and merges it into the cloud-synced repository automatically.
+
+### The "Clean Home" Strategy
+
+Unlike basic setups that clutter the `$HOME` directory with symlinks, this system is configured via `map.conf` to target specific configuration files (like `settings.json`). This keeps your Home folder clean while ensuring your IDE preferences are backed up without heavy extension binaries.
+
+---
 
 ## 🛡️ The Safety Vault (`~/config_backups`)
 
-To prevent data loss, every time you run the installer, the system takes a **snapshot** of your current files before moving or linking them.
+To prevent data loss during sync or installation, the system takes a **snapshot** of your current files before moving or linking them.
 
-* **Location:** `~/config_backups/[TIMESTAMP]`
+* **Action:** Snapshotting occurs before absorption or linking.
+* **Location:** `~/config_backups/[TIMESTAMP]`.
 * **Retention:** The system automatically deletes backups older than 30 days to save disk space.
 
 ---
@@ -34,22 +41,20 @@ To prevent data loss, every time you run the installer, the system takes a **sna
 
 ### 🔄 `up` (The Daily Sync)
 
-Updates system packages, cleans the cache, pulls latest dotfiles from GitHub, and ensures all symlinks are healthy.
+A single command to keep the entire workstation healthy:
+
+1. **System Update:** Syncs Pacman and AUR (`yay`) packages.
+2. **App Restoration:** Ensures Brave, VS Code, and Antigravity binaries are installed.
+3. **Extension Sync:** Force-installs the defined list of IDE extensions.
+4. **Link Health:** Refreshes all GNU Stow symlinks.
 
 ### ➕ `track <name> <path>`
 
-The most powerful tool in the arsenal. Use this to add a new app to your backup:
-
-```bash
-track ghostty ~/.config/ghostty
-
-```
-
-* **What it does:** Adds to `map.conf` → Backs up local data → Absorbs into repo → Symlinks back.
+The primary tool for adding new applications to the backup cycle. It automatically updates `map.conf`, backups local data to the Vault, and establishes the symlink.
 
 ### ☁️ `dots`
 
-A one-word command to commit and push all changes to your GitHub repository.
+The final step of the day: commits all changes and pushes your configuration state to GitHub.
 
 ---
 
@@ -57,47 +62,37 @@ A one-word command to commit and push all changes to your GitHub repository.
 
 ### 1. The Dynamic Map (`map.conf`)
 
-The database that tells the engine where files belong.
+The database that tells the engine exactly where files belong. It supports both **folders** (for tools like Hyprland) and **individual files** (for IDE settings).
 
-* **Format:** `folder_name=$HOME/path/to/original`
+### 2. The Universal Installer (`install.sh`)
 
-### 2. The Engine (`install.sh`)
+The "Heart" of the system. It is designed to be **Idempotent**, meaning it can be run 100 times without breaking anything.
 
-The automated script that handles:
-
-* **Binary Installation:** (Brave, VS Code, Google Antigravity).
-* **Extension Syncing:** Keeps VS Code and Antigravity extensions identical.
-* **Stow Linking:** Uses GNU Stow to manage the `/home` directory.
+* **Parent Directory Creation:** Automatically creates missing system paths (e.g., `~/.antigravity/User/`) so symlinks can be placed correctly on new installs.
+* **Absorption Logic:** If it finds a real file where a link should be, it "absorbs" that data into the repository before linking.
 
 ---
 
-## 📂 Tracked Modules
+## 📂 Tracked Modules (Optimized)
 
-| Module | System Path | Description |
+| Module | Target Path | Backup Type |
 | --- | --- | --- |
-| `hypr` | `~/.config/hypr` | Window Manager Configs |
-| `bash` | `~/.bashrc` | Automation, Aliases, & Functions |
-| `antigravity` | `~/.gemini` | AI Agent "Brain" & Rules |
-| `antigravity-settings` | `~/.antigravity` | IDE Profile (Settings/Keybinds) |
-| `vscode` | `~/.config/Code/User` | VS Code User Profile |
-| `waybar` | `~/.config/waybar` | Desktop Status Bar |
-| `ghostty` | `~/.config/ghostty` | Terminal Emulator Config |
-| `backgrounds` | `~/Pictures/Wallpapers` | Desktop Wallpapers |
+| **hypr** | `~/.config/hypr` | Full Directory |
+| **bash** | `~/.bashrc` | Individual File |
+| **vscode-config** | `~/.config/Code/User/settings.json` | Settings Only |
+| **antigravity-config** | `~/.antigravity/User/settings.json` | Settings Only |
+| **ghostty** | `~/.config/ghostty` | Full Directory |
+| **waybar** | `~/.config/waybar` | Full Directory |
+| **backgrounds** | `~/Pictures/Wallpapers` | Media Folder |
 
 ---
 
-## 🤖 AI / Developer Troubleshooting
+## 🤖 AI / Developer Notes
 
-* **File Size Limits:** The `.gitignore` is configured to block large binary caches (ONNX models, `.so` files) to keep the GitHub repo under 100MB.
-* **Manual Re-link:** If a config is missing, simply run `cd ~/dotfiles && ./install.sh`.
-* **Idempotency:** All scripts are designed to be run multiple times without creating duplicate entries or breaking existing links.
+* **Extensions:** Extensions are NOT backed up as files. They are restored via a list in `install.sh` to keep the repository lightweight.
+* **Git Limits:** `.gitignore` is configured to prevent pushing binary models or large logs to GitHub.
+* **Fresh Installs:** On new machines, `install.sh` handles the manual `curl` download and binary linking for Google Antigravity automatically.
 
 ---
 
-### 🏁 Next Step
-
-1. Open your `README.md` in your dotfiles folder.
-2. Paste this entire block inside.
-3. Run `dots` to finalize your repository.
-
-**Is there anything else you'd like to include in the documentation, or are you ready to push this to GitHub?**
+**Would you like me to create a "Change Log" section at the bottom to help you track your future updates?**
