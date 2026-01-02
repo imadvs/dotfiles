@@ -53,37 +53,45 @@ if [ -f "$HOME/dotfiles/map.conf" ]; then
     done < "$HOME/dotfiles/map.conf"
 fi
 
+# ... (Keep everything above the for loop the same)
+
 for target in "${!FOLDER_MAP[@]}"; do
-    [ ! -d "$target" ] && continue
+    # Check if the SOURCE exists in your ~/dotfiles (could be file or folder)
+    [ ! -e "$target" ] && continue 
+    
     DEST="${FOLDER_MAP[$target]}"
 
-    # --- SAFETY VAULT: Before touching anything, save a snapshot ---
+    # --- SAFETY VAULT: Snapshot existing data ---
     if [ -e "$DEST" ] && [ ! -L "$DEST" ]; then
         echo "🛡️ Safety Vault: Snapshotting $target to $BACKUP_DIR"
         mkdir -p "$BACKUP_DIR"
-        cp -rp "$DEST" "$BACKUP_DIR/"
+        cp -rp --parents "$DEST" "$BACKUP_DIR/" 2>/dev/null
     fi
 
+    # Ensure the parent directory exists (e.g., ~/.antigravity/User/)
     mkdir -p "$(dirname "$DEST")"
 
     if [ -L "$DEST" ]; then
-        # Already a link, just refresh it
         stow "$target" 2>/dev/null
         echo "✅ $target is synced."
     elif [ -e "$DEST" ]; then
-        # Real folder found: Absorb it
-        echo "📥 New data found at $DEST. Absorbing into dotfiles..."
-        cp -ru "$DEST"/. "$HOME/dotfiles/$target/" 2>/dev/null
+        echo "📥 New data found at $DEST. Absorbing..."
+        # If it's a directory, copy contents; if it's a file, just copy the file
+        if [ -d "$DEST" ]; then
+            cp -ru "$DEST"/. "$HOME/dotfiles/$target/" 2>/dev/null
+        else
+            cp -u "$DEST" "$HOME/dotfiles/$target" 2>/dev/null
+        fi
         rm -rf "$DEST"
         stow "$target"
-        echo "✅ $target is now managed and synced."
+        echo "✅ $target absorbed and synced."
     else
-        # Fresh install: Just link from repo
+        # --- FRESH INSTALL LOGIC ---
+        # This creates the symlink even if the file didn't exist locally yet
         stow "$target"
-        echo "✅ $target is synced (New Installation)."
+        echo "✅ $target synced (New Installation)."
     fi
 done
-
 # 4. Housekeeping: Remove backups older than 30 days
 if [ -d "$HOME/config_backups" ]; then
     find "$HOME/config_backups" -type d -mtime +30 -exec rm -rf {} +
