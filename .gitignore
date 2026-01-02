@@ -16,3 +16,8 @@ vscode/User/workspaceStorage/
 
 # System-level ignored files
 lost+found
+
+# Ignore heavy Antigravity/VS Code extension binaries
+antigravity-settings/extensions/
+antigravity-settings/CachedData/
+vscode/extensions/

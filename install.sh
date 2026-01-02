@@ -14,7 +14,20 @@ if ! command -v yay &> /dev/null; then
 fi
 
 echo "🌐 Installing Browser & VS Code..."
-yay -S --needed --noconfirm brave-bin visual-studio-code-bin
+yay -S --needed --noconfirm brave-bin visual-studio-code-bin antigravity-bin
+
+# --- Google Antigravity Manual Install ---
+if ! command -v antigravity &> /dev/null; then
+    echo "🚀 Antigravity not found. Downloading official Google binary..."
+    # Downloads the Linux binary to /tmp and installs it
+    curl -L "https://antigravity.google/download/linux" -o /tmp/antigravity.tar.gz
+    sudo tar -xzf /tmp/antigravity.tar.gz -C /opt/
+    sudo ln -sf /opt/antigravity/antigravity /usr/bin/antigravity
+    echo "✅ Antigravity installed!"
+else
+    echo "✅ Antigravity is already installed."
+fi
+
 
 # --- VS Code Extensions ---
 echo "📦 Installing VS Code Extensions..."
