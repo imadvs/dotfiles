@@ -1,24 +1,28 @@
+Here is the updated, clean version of your **README.md**. It now explains the **Dynamic Tracking** and **Omarchy foundation** so your documentation stays as professional as your code.
+
+---
+
 # 🌌 Imad's Dotfiles (Omarchy Powered)
 
-A professional, fully automated Arch Linux environment built on the **Omarchy** framework. This repository manages system updates, AUR packages, VS Code extensions, and hardware-aware configurations using **GNU Stow**.
+A professional, fully automated Arch Linux environment built on the **Omarchy** framework. This system features dynamic configuration tracking, auto-absorption of local changes, and one-command maintenance.
 
 ---
 
 ## 🏗️ Framework & Tools
 
-* **Base:** [Omarchy](https://www.google.com/search?q=https://github.com/omarchy) (Standardizing aliases and bash functions).
+* **Base:** [Omarchy](https://www.google.com/search?q=https://github.com/omarchy) (Standardized shell environment).
 * **Manager:** GNU Stow (Symlink farm manager).
 * **Terminal:** Ghostty.
-* **Shell:** Bash (Extended via personalized `.bashrc`).
+* **Shell:** Bash (Personalized with custom automation).
 
 ---
 
 ## 🚀 Key Features
 
-* **Omarchy Integration**: Sources default Omarchy bash environments while adding custom logic.
-* **Auto-Absorb Logic**: Local changes made in `~/.config` are automatically synced back to this repository during the update process.
-* **One-Command Maintenance**: The `up` function handles system upgrades, silent cache cleaning, and config re-linking.
-* **VS Code Sync**: Automates extension installation and `settings.json` management.
+* **Dynamic Tracking**: Use the `track` command to instantly add new programs to your dotfiles without manual file moving.
+* **Auto-Absorb Logic**: The system detects "real" folders in `~/.config`, absorbs them into the repository, and replaces them with symlinks automatically.
+* **Master Update (`up`)**: A single command that handles system upgrades, silent cache cleaning, git syncing, and configuration re-linking.
+* **VS Code Sync**: Automates the installation of essential extensions and user settings.
 
 ---
 
@@ -26,21 +30,22 @@ A professional, fully automated Arch Linux environment built on the **Omarchy** 
 
 | Command | Description |
 | --- | --- |
-| `up` | Updates Pacman/AUR, cleans cache, pulls git changes, and runs `install.sh`. |
+| `up` | The master maintenance command. Updates system, cleans cache, and runs `install.sh`. |
+| `track <name> <path>` | **New:** Automatically tracks a new config folder (e.g., `track nvim ~/.config/nvim`). |
 | `dots` | Stages all changes, commits with a timestamp, and pushes to GitHub. |
 | `pkm` | Syncs Personal Knowledge Management (PKM) vault via Git. |
-| `readme` | Quick shortcut to edit this documentation. |
+| `reload` | Instantly applies changes made to `.bashrc`. |
 
 ---
 
-## 📁 Mapping Structure
+## 📁 Mapping System
 
-The `install.sh` uses the following `FOLDER_MAP` to ensure symlink accuracy:
+This repository uses `map.conf` to dynamically manage links. Current tracked paths include:
 
-* `ayaka` → `~/.config/ayaka`
 * `hypr` → `~/.config/hypr`
-* `bash` → `~/.bashrc` (Sources Omarchy defaults)
-* `backgrounds` → `~/Pictures/Wallpapers`
+* `bash` → `~/.bashrc`
+* `ghostty` → `~/.config/ghostty`
+* `waybar` → `~/.config/waybar`
 * `vscode` → `~/.config/Code/User/settings.json`
 
 ---
@@ -57,26 +62,12 @@ The `install.sh` uses the following `FOLDER_MAP` to ensure symlink accuracy:
 
 ---
 
-## 💻 Installation
+## 💻 Installation (New Machine)
 
-1. **Clone the repo:**
-```bash
-git clone https://github.com/[YOUR_USERNAME]/dotfiles.git ~/dotfiles
+1. **Clone:** `git clone https://github.com/[YOUR_USERNAME]/dotfiles.git ~/dotfiles`
+2. **Install:** `cd ~/dotfiles && chmod +x install.sh && ./install.sh`
+3. **Activate:** `source ~/.bashrc`
 
-```
+---
 
-
-2. **Run the installer:**
-```bash
-cd ~/dotfiles
-chmod +x install.sh
-./install.sh
-
-```
-
-
-3. **Initialize Bash:**
-```bash
-source ~/.bashrc
-
-```
+**Would you like me to help you fill in those CPU and GPU specs now so the README is 100% complete?**
