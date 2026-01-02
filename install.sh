@@ -34,6 +34,32 @@ for ext in "${EXTENSIONS[@]}"; do
     code --install-extension "$ext" --force
 done
 
+
+# --- IDE Extensions (VS Code & Antigravity) ---
+echo "📦 Installing IDE Extensions..."
+EXTENSIONS=(
+    "github.copilot"
+    "github.copilot-chat"
+    "github.remotehub"
+    "ms-vscode.azure-repos"
+    "ms-vscode.cmake-tools"
+    "ms-vscode.cpptools"
+    "ms-vscode.cpptools-extension-pack"
+    "ms-vscode.cpptools-themes"
+    "ms-vscode.remote-repositories"
+)
+
+for ext in "${EXTENSIONS[@]}"; do
+    # Install for standard VS Code
+    code --install-extension "$ext" --force
+    
+    # Install for Antigravity (if the command exists)
+    if command -v antigravity &> /dev/null; then
+        antigravity --install-extension "$ext" --force
+    fi
+done
+
+
 # 3. Apply ALL Dotfiles
 echo "🔗 Linking dotfiles with Stow..."
 cd ~/dotfiles
