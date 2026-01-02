@@ -15,25 +15,22 @@ up() {
     sudo pacman -Syu --noconfirm
 
     echo "🧹 Cleaning Package Cache..."
-    # 2>/dev/null hides the "fd 7" errors you were seeing
+    # This specifically silences the fd 7 errors and handles the Y/n prompts automatically
     sudo pacman -Sc --noconfirm 2>/dev/null
     
     if command -v yay &> /dev/null; then
-        yay -Sc --noconfirm
+        yay -Sc --noconfirm 2>/dev/null
     fi
 
     echo "📂 Syncing Dotfiles..."
-    # Using --rebase helps avoid "merge commit" mess in your history
     cd ~/dotfiles && git pull --rebase
 
-    # This runs your installer which handles extensions and linking
+    # Run the installer
     ./install.sh
     
-    # Return to where you were
     cd - > /dev/null
     echo "✅ All systems updated and cleaned!"
 }
-
 # --- CUSTOM STARTUP (Welcome Screen) ---
 clear
 fastfetch --logo arch_small
