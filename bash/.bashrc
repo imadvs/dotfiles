@@ -33,6 +33,9 @@ track() {
     echo "$folder_name=$portable_path" >> ~/dotfiles/map.conf
     mkdir -p ~/dotfiles/"$folder_name"
 
+    # Stage changes so 'up' can pull/rebase without errors
+    git -C ~/dotfiles add .
+    
     # Run up to finish the absorption and linking
     up
 }

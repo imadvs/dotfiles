@@ -1,0 +1,18 @@
+# Package Manager Caches
+/var/cache/pacman/pkg/
+
+# Antigravity / Gemini temporary files
+antigravity/logs/
+antigravity/cache/
+antigravity/artifacts/video/
+*.log
+*.tmp
+.DS_Store
+
+# VS Code temporary data
+vscode/CachedData/
+vscode/logs/
+vscode/User/workspaceStorage/
+
+# System-level ignored files
+lost+found
