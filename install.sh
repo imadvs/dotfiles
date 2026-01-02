@@ -12,9 +12,9 @@ sudo pacman -S --needed --noconfirm "${APPS[@]}"
 # --- NEW: VS Code Extensions ---
 echo "📦 Installing VS Code Extensions..."
 EXTENSIONS=(
-    "GitHub.copilot"
-    "GitHub.copilot-chat"
-    "GitHub.remotehub"
+    "github.copilot"
+    "github.copilot-chat"
+    "github.remotehub"
     "ms-vscode.azure-repos"
     "ms-vscode.cmake-tools"
     "ms-vscode.cpptools"
