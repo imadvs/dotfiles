@@ -90,14 +90,3 @@ ls -la ~/.config | grep "->"
 
 Your computer is now synced. Any wallpaper added to your dotfiles will be tracked, and your `install.sh` ensures you can recreate this exact environment on any machine in minutes.
 
-```
-
-### Next Step:
-Now that your README is updated, run your backup command one last time to push the new documentation and your finalized `install.sh` to GitHub:
-
-```bash
-dots
-
-```
-
-**Would you like me to show you how to add your VS Code extensions to the `install.sh` so your coding environment also restores itself automatically?**
