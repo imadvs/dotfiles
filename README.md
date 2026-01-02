@@ -1,4 +1,4 @@
-This is the finalized, professional `README.md` for your repository. It covers the **Quick Start** for new machines, the **Safety Vault** logic, and the technical breakdown of how your system handles apps, extensions, and configurations.
+Here is the updated, high-definition `README.md` for your repository. It now includes a **Change Log** at the end so you can track your system's evolution as you add more features.
 
 ---
 
@@ -66,7 +66,7 @@ The database that tells the engine exactly where files belong. It supports both 
 
 ### 2. The Universal Installer (`install.sh`)
 
-The "Heart" of the system. It is designed to be **Idempotent**, meaning it can be run 100 times without breaking anything.
+The "Heart" of the system. It is designed to be **Idempotent**, meaning it can be run multiple times without breaking anything.
 
 * **Parent Directory Creation:** Automatically creates missing system paths (e.g., `~/.antigravity/User/`) so symlinks can be placed correctly on new installs.
 * **Absorption Logic:** If it finds a real file where a link should be, it "absorbs" that data into the repository before linking.
@@ -95,4 +95,13 @@ The "Heart" of the system. It is designed to be **Idempotent**, meaning it can b
 
 ---
 
-**Would you like me to create a "Change Log" section at the bottom to help you track your future updates?**
+## 📝 Change Log
+
+* **v1.0 (Initial):** Basic Omarchy setup with manual symlinks.
+* **v2.0 (The Engine):** Integrated `map.conf` for dynamic file and folder mapping.
+* **v2.1 (Safety):** Implemented **The Safety Vault** for timestamped backups and auto-cleanup.
+* **v2.2 (Optimized):** Migrated VS Code and Antigravity to "Settings Only" tracking to eliminate clutter and heavy binaries.
+
+---
+
+**Would you like me to help you create a specific `.gitignore` file now to make sure those heavy extension binaries never accidentally get uploaded?**
