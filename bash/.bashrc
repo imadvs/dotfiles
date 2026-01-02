@@ -8,6 +8,8 @@ source ~/.local/share/omarchy/default/bash/rc
 alias readme='nvim ~/dotfiles/README.md'
 alias dots='cd ~/dotfiles && git add . && git commit -m "Update $(date)" && git push && cd -'
 alias pkm='cd ~/Documents/PKM && git pull && git add . && git commit -m "Update: $(date)" && git push && cd -'
+alias reload='source ~/.bashrc && echo "♻️ Shell Reloaded"'
+
 
 # --- THE MASTER UP FUNCTION ---
 up() {
