@@ -5,6 +5,7 @@
 source ~/.local/share/omarchy/default/bash/rc
 
 # --- ALIASES ---
+alias restore='cd ~/dotfiles && git fetch origin && git reset --hard origin/main && ./install.sh'
 alias readme='nvim ~/dotfiles/README.md'
 alias dots='cd ~/dotfiles && git add . && git commit -m "Update $(date)" && git push && cd -'
 alias pkm='cd ~/Documents/PKM && git pull && git add . && git commit -m "Update: $(date)" && git push && cd -'
