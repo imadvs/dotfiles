@@ -4,7 +4,7 @@ echo "🚀 Starting System Restoration..."
 
 # 1. Update & Install Core Tools
 sudo pacman -Syu --noconfirm
-sudo pacman -S --needed --noconfirm stow fastfetch
+sudo pacman -S --needed --noconfirm stow fastfetch curl git
 
 # 2. Yay & AUR Apps
 if ! command -v yay &> /dev/null; then
@@ -27,44 +27,24 @@ else
     echo "✅ Antigravity is already installed."
 fi
 
-# --- VS Code Extensions ---
-echo "📦 Installing VS Code Extensions..."
+# --- IDE Extensions (VS Code & Antigravity) ---
+echo "📦 Installing IDE Extensions..."
 EXTENSIONS=("github.copilot" "github.copilot-chat" "github.remotehub" "ms-vscode.azure-repos" "ms-vscode.cmake-tools" "ms-vscode.cpptools" "ms-vscode.cpptools-extension-pack" "ms-vscode.cpptools-themes" "ms-vscode.remote-repositories")
 for ext in "${EXTENSIONS[@]}"; do
     code --install-extension "$ext" --force
-done
-
-
-# --- IDE Extensions (VS Code & Antigravity) ---
-echo "📦 Installing IDE Extensions..."
-EXTENSIONS=(
-    "github.copilot"
-    "github.copilot-chat"
-    "github.remotehub"
-    "ms-vscode.azure-repos"
-    "ms-vscode.cmake-tools"
-    "ms-vscode.cpptools"
-    "ms-vscode.cpptools-extension-pack"
-    "ms-vscode.cpptools-themes"
-    "ms-vscode.remote-repositories"
-)
-
-for ext in "${EXTENSIONS[@]}"; do
-    # Install for standard VS Code
-    code --install-extension "$ext" --force
-    
-    # Install for Antigravity (if the command exists)
     if command -v antigravity &> /dev/null; then
         antigravity --install-extension "$ext" --force
     fi
 done
 
-
-# 3. Apply ALL Dotfiles
+# 3. Apply Dotfiles with Safety Vault Logic
 echo "🔗 Linking dotfiles with Stow..."
 cd ~/dotfiles
 
-# --- THE DYNAMIC MAP ---
+# Create a timestamped backup folder for this specific run
+BACKUP_DIR="$HOME/config_backups/$(date +%Y-%m-%d_%H-%M)"
+
+# Load the dynamic map
 declare -A FOLDER_MAP
 if [ -f "$HOME/dotfiles/map.conf" ]; then
     while IFS='=' read -r key value; do
@@ -76,21 +56,38 @@ fi
 for target in "${!FOLDER_MAP[@]}"; do
     [ ! -d "$target" ] && continue
     DEST="${FOLDER_MAP[$target]}"
+
+    # --- SAFETY VAULT: Before touching anything, save a snapshot ---
+    if [ -e "$DEST" ] && [ ! -L "$DEST" ]; then
+        echo "🛡️ Safety Vault: Snapshotting $target to $BACKUP_DIR"
+        mkdir -p "$BACKUP_DIR"
+        cp -rp "$DEST" "$BACKUP_DIR/"
+    fi
+
     mkdir -p "$(dirname "$DEST")"
 
     if [ -L "$DEST" ]; then
+        # Already a link, just refresh it
         stow "$target" 2>/dev/null
         echo "✅ $target is synced."
     elif [ -e "$DEST" ]; then
+        # Real folder found: Absorb it
         echo "📥 New data found at $DEST. Absorbing into dotfiles..."
         cp -ru "$DEST"/. "$HOME/dotfiles/$target/" 2>/dev/null
         rm -rf "$DEST"
         stow "$target"
         echo "✅ $target is now managed and synced."
     else
+        # Fresh install: Just link from repo
         stow "$target"
         echo "✅ $target is synced (New Installation)."
     fi
 done
+
+# 4. Housekeeping: Remove backups older than 30 days
+if [ -d "$HOME/config_backups" ]; then
+    find "$HOME/config_backups" -type d -mtime +30 -exec rm -rf {} +
+    echo "🧹 Cleaned old backups from the Safety Vault."
+fi
 
 echo "🏁 All systems go!"
