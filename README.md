@@ -1,92 +1,75 @@
-# 🚀 Restoring My Dotfiles
+Since your setup is now fully automated and professional, you need a **README.md** in your `~/dotfiles` folder. This acts as the "manual" for your system, making it easy for you (or anyone else) to understand how it works.
 
-This repository contains my personal configurations (Hyprland, Waybar, Alacritty, and Omarchy Themes). It uses **GNU Stow** to manage symbolic links, ensuring that any changes made in the system are automatically tracked here.
+Here is a clean, professional README tailored to your exact setup:
 
 ---
 
-## ⚡ 1. Fast Track (Automatic Setup)
-If you are on a fresh Arch Linux install, run this single command to update your system, install your apps (Brave, VS Code, etc.), and link all your configs:
+# 🌌 Imad's Dotfiles
 
-```bash
-git clone [https://github.com/imadvs/dotfiles.git](https://github.com/imadvs/dotfiles.git) ~/dotfiles && cd ~/dotfiles && chmod +x install.sh && ./install.sh
+A fully automated Arch Linux environment managed with **GNU Stow**. This repository handles system updates, AUR packages, VS Code extensions, and configuration syncing across machines.
+
+## 🚀 Key Features
+
+* **Smart Syncing**: The `up` command automatically links configurations and absorbs new local changes into the repository.
+* **VS Code Integration**: Auto-installs extensions and manages `settings.json`.
+* **AUR Support**: Integrated `yay` management for Brave Browser and VS Code.
+* **Safe Backups**: Automatically creates `.bak` files if conflicts occur.
+
+## 🛠️ Custom Commands
+
+I have created two main aliases to manage this system:
+
+| Command | Description |
+| --- | --- |
+| `up` | Performs a full system upgrade, cleans cache, syncs git, and runs `install.sh`. |
+| `dots` | Stages all changes, commits with a timestamp, and pushes to GitHub. |
+
+## 📁 Repository Structure
+
+Stow mimics the home directory structure. To add a new config, ensure it follows this pattern:
+
+```text
+~/dotfiles/
+├── hypr/
+│   └── .config/hypr/          # Links to ~/.config/hypr
+├── waybar/
+│   └── .config/waybar/        # Links to ~/.config/waybar
+└── bash/
+    └── .bashrc                # Links to ~/.bashrc
 
 ```
 
----
+## 💻 Installation (New Machine)
 
-## 🛠️ 2. Prerequisites
+To restore this environment on a fresh Arch Linux installation:
 
-If you prefer to do things manually, ensure you have these tools first:
-
+1. **Clone the repo:**
 ```bash
-# Example for Arch Linux
-sudo pacman -S git stow github-cli
+git clone https://github.com/YOUR_USERNAME/dotfiles.git ~/dotfiles
 
 ```
 
----
 
-## 🔗 3. The "Stow" Magic (Linking)
-
-Instead of copying files, we create "bridges" (symbolic links). This makes the folders in `~/.config` point directly to your `~/dotfiles` folder.
-
+2. **Run the installer:**
 ```bash
-# To link everything at once:
 cd ~/dotfiles
-stow */
+chmod +x install.sh
+./install.sh
 
 ```
 
-> [!TIP]
-> **No more conflict errors!** My `install.sh` script now automatically detects and removes real folders in `~/.config` or `~/` that would cause a stow conflict, making the restoration process hands-free.
+
+
+## 🔧 Maintenance
+
+If you add a new top-level folder to this repo, update the `FOLDER_MAP` inside `install.sh` to ensure the script knows the correct destination for the symbolic link.
 
 ---
 
-## 📜 4. Custom Scripts & Shortcuts
+### 🚀 Next Step
 
-### The `dots` Command
+To create this file, run:
+`nvim ~/dotfiles/README.md`
+Paste the text above and save it. Then run `dots` to push your new documentation to GitHub!
 
-To make life easier, I use a custom script called `dots` to handle backups. It automates:
-
-1. **Adding** all new changes (new wallpapers, tweaks).
-2. **Committing** with an automatic timestamp.
-3. **Pushing** everything to GitHub.
-
-```bash
-# To backup now:
-dots
-
-```
-
-### The `readme` Shortcut
-
-I've added an alias to my shell so I can view these instructions instantly:
-
-```bash
-# To open this file in Neovim:
-readme
-
-```
-
----
-
-## 🖼️ 5. Wallpapers & Assets
-
-I keep my wallpapers organized in two places:
-
-1. **Theme Assets**: Located in `ayaka/` for the Omarchy theme picker.
-2. **Personal Vault**: Located in `backgrounds/` which links to `~/Pictures/Wallpapers`.
-
-To verify your links are active, run:
-
-```bash
-ls -la ~/.config | grep "->"
-
-```
-
----
-
-## ✅ Finished!
-
-Your computer is now synced. Any wallpaper added to your dotfiles will be tracked, and your `install.sh` ensures you can recreate this exact environment on any machine in minutes.
-
+**Would you like me to help you add a "System Status" section to the README that shows your hardware specs?**
