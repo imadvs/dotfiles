@@ -9,6 +9,25 @@ sudo pacman -Syu --noconfirm
 APPS=("stow" "brave" "code")
 sudo pacman -S --needed --noconfirm "${APPS[@]}"
 
+# --- NEW: VS Code Extensions ---
+echo "📦 Installing VS Code Extensions..."
+EXTENSIONS=(
+    "GitHub.copilot"
+    "GitHub.copilot-chat"
+    "GitHub.remotehub"
+    "ms-vscode.azure-repos"
+    "ms-vscode.cmake-tools"
+    "ms-vscode.cpptools"
+    "ms-vscode.cpptools-extension-pack"
+    "ms-vscode.cpptools-themes"
+    "ms-vscode.remote-repositories"
+)
+
+for ext in "${EXTENSIONS[@]}"; do
+    code --install-extension "$ext" --force
+done
+# -------------------------------
+
 # 3. Handle Yay (AUR)
 if ! command -v yay &> /dev/null; then
     echo "🛠️ Installing Yay..."
