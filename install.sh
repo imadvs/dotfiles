@@ -5,33 +5,40 @@ echo "🚀 Starting System Restoration..."
 # 1. Update the System
 sudo pacman -Syu --noconfirm
 
-# 2. Install your personal apps (Not covered by Omarchy)
-# Note: visual-studio-code is often 'code' in Arch
+# 2. Install personal apps (Not covered by Omarchy)
+# Use 'code' for VS Code and 'brave' for the browser
 APPS=("stow" "brave" "code")
 
 echo "📦 Installing personal packages..."
 sudo pacman -S --needed --noconfirm "${APPS[@]}"
 
-# 3. Handle Yay (AUR) if needed
+# 3. Handle Yay (AUR) for custom apps
 if ! command -v yay &> /dev/null; then
-    echo "🛠️ Installing Yay..."
+    echo "🛠️ Installing Yay (AUR Helper)..."
     git clone https://aur.archlinux.org/yay.git /tmp/yay
     cd /tmp/yay && makepkg -si --noconfirm && cd ~/dotfiles
 fi
 
-# 4. Apply ALL Dotfiles
-echo "🔗 Linking all config folders..."
+# 4. Apply ALL Dotfiles with Conflict Handling
+echo "🔗 Linking dotfiles with Stow..."
 cd ~/dotfiles
 
-# This loop stows every folder in your dotfiles automatically
 for dir in */; do
-    # Remove the trailing slash for stow
     target=${dir%/}
-    # Don't stow the .git folder
+    
+    # Skip the .git folder
     if [ "$target" != ".git" ]; then
+        
+        # Check if a REAL file or folder exists at the destination
+        # and delete it if it is NOT already a symbolic link
+        if [ -e "$HOME/.config/$target" ] && [ ! -L "$HOME/.config/$target" ]; then
+            echo "⚠️  Conflict found at ~/.config/$target. Removing real file/folder..."
+            rm -rf "$HOME/.config/$target"
+        fi
+
         echo "Stowing $target..."
         stow "$target"
     fi
 done
 
-echo "✅ Setup Complete! Ghostty, Waybar, and Ayaka are now linked."
+echo "✅ Setup Complete! All configs (bash, ghostty, waybar, hypr, ayaka) are linked."
