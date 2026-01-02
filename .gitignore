@@ -1,23 +1,35 @@
 # Package Manager Caches
 /var/cache/pacman/pkg/
 
-# Antigravity / Gemini temporary files
-antigravity/logs/
-antigravity/cache/
-antigravity/artifacts/video/
-*.log
-*.tmp
-.DS_Store
-
-# VS Code temporary data
-vscode/CachedData/
-vscode/logs/
-vscode/User/workspaceStorage/
-
 # System-level ignored files
 lost+found
 
-# Ignore heavy Antigravity/VS Code extension binaries
-antigravity-settings/extensions/
-antigravity-settings/CachedData/
-vscode/extensions/
+# --- System Bloat ---
+*.log
+*.tmp
+.cache/
+.DS_Store
+
+# --- VS Code & Antigravity Bloat ---
+# We track settings.json, but ignore the heavy folders nearby
+**/extensions/
+**/bin/
+**/CachedData/
+**/Cache/
+**/User/History/
+**/User/workspaceStorage/
+
+# --- Antigravity Specifics ---
+# Ignore the large AI models and local logs
+**/models/
+**/logs/
+**/state/
+argv.json
+GEMINI.md
+
+# --- Safety Vault ---
+# We don't want to upload backups to GitHub
+config_backups/
+
+# --- OS Specific ---
+lost+found/
