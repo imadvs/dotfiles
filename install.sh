@@ -14,12 +14,11 @@ if ! command -v yay &> /dev/null; then
 fi
 
 echo "🌐 Installing Browser & VS Code..."
-yay -S --needed --noconfirm brave-bin visual-studio-code-bin antigravity-bin
+yay -S --needed --noconfirm brave-bin visual-studio-code-bin
 
 # --- Google Antigravity Manual Install ---
 if ! command -v antigravity &> /dev/null; then
     echo "🚀 Antigravity not found. Downloading official Google binary..."
-    # Downloads the Linux binary to /tmp and installs it
     curl -L "https://antigravity.google/download/linux" -o /tmp/antigravity.tar.gz
     sudo tar -xzf /tmp/antigravity.tar.gz -C /opt/
     sudo ln -sf /opt/antigravity/antigravity /usr/bin/antigravity
@@ -27,7 +26,6 @@ if ! command -v antigravity &> /dev/null; then
 else
     echo "✅ Antigravity is already installed."
 fi
-
 
 # --- VS Code Extensions ---
 echo "📦 Installing VS Code Extensions..."
@@ -42,11 +40,12 @@ cd ~/dotfiles
 
 # --- THE DYNAMIC MAP ---
 declare -A FOLDER_MAP
-while IFS='=' read -r key value; do
-    # This part replaces the literal '$HOME' text with your actual home path
-    eval actual_value="$value"
-    FOLDER_MAP["$key"]="$actual_value"
-done < "$HOME/dotfiles/map.conf"
+if [ -f "$HOME/dotfiles/map.conf" ]; then
+    while IFS='=' read -r key value; do
+        eval actual_value="$value"
+        FOLDER_MAP["$key"]="$actual_value"
+    done < "$HOME/dotfiles/map.conf"
+fi
 
 for target in "${!FOLDER_MAP[@]}"; do
     [ ! -d "$target" ] && continue
@@ -57,13 +56,14 @@ for target in "${!FOLDER_MAP[@]}"; do
         stow "$target" 2>/dev/null
         echo "✅ $target is synced."
     elif [ -e "$DEST" ]; then
-        echo "📥 New data found at $DEST. Absorbing..."
+        echo "📥 New data found at $DEST. Absorbing into dotfiles..."
         cp -ru "$DEST"/. "$HOME/dotfiles/$target/" 2>/dev/null
         rm -rf "$DEST"
         stow "$target"
+        echo "✅ $target is now managed and synced."
     else
-        echo "📦 Stowing $target..."
         stow "$target"
+        echo "✅ $target is synced (New Installation)."
     fi
 done
 
