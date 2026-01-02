@@ -5,19 +5,20 @@ echo "🚀 Starting System Restoration..."
 # 1. Update the System
 sudo pacman -Syu --noconfirm
 
-# 2. Install Repo Apps (Removed Brave from here as it's in AUR)
-APPS=("stow" "code")
+# 2. Install Repo Apps (Using visual-studio-code-bin from AUR for better extension support)
+APPS=("stow")
 sudo pacman -S --needed --noconfirm "${APPS[@]}"
 
-# 3. Handle Yay (AUR) & Install Brave
+# 3. Handle Yay (AUR) & Install Brave + VS Code Bin
 if ! command -v yay &> /dev/null; then
     echo "🛠️ Installing Yay..."
     git clone https://aur.archlinux.org/yay.git /tmp/yay
     cd /tmp/yay && makepkg -si --noconfirm && cd ~/dotfiles
 fi
 
-echo "🌐 Installing Brave Browser..."
-yay -S --needed --noconfirm brave-bin
+echo "🌐 Installing AUR Apps..."
+# visual-studio-code-bin is better for Microsoft extensions like Copilot
+yay -S --needed --noconfirm brave-bin visual-studio-code-bin
 
 # --- VS Code Extensions ---
 echo "📦 Installing VS Code Extensions..."
@@ -41,7 +42,7 @@ done
 echo "🔗 Linking dotfiles with Stow..."
 cd ~/dotfiles
 
-# Update this list based on where your folders link to
+# Folders that belong in ~ instead of ~/.config
 HOME_PACKAGES=("bash" "backgrounds" "ayaka")
 
 for dir in */; do
@@ -51,17 +52,15 @@ for dir in */; do
     # VS Code special path handling
     if [ "$target" == "vscode" ]; then
         DEST="$HOME/.config/Code/User/settings.json"
-        # Since vscode stows a file, we check the specific file path
-        if [ -L "$DEST" ]; then
-            echo "✅ vscode settings already linked. Skipping."
-            continue
-        fi
+    elif [ "$target" == "bash" ]; then
+        DEST="$HOME/.bashrc"
     elif [[ " ${HOME_PACKAGES[@]} " =~ " ${target} " ]]; then
         DEST="$HOME/$target"
     else
         DEST="$HOME/.config/$target"
     fi
 
+    # --- SMART LINKING LOGIC ---
     if [ -L "$DEST" ]; then
         echo "✅ $target is already a link. Skipping."
     else
@@ -73,3 +72,5 @@ for dir in */; do
         stow "$target"
     fi
 done
+
+echo "✅ All systems updated and cleaned!"
