@@ -11,6 +11,31 @@ alias pkm='cd ~/Documents/PKM && git pull && git add . && git commit -m "Update:
 alias reload='source ~/.bashrc && echo "♻️ Shell Reloaded"'
 
 
+track() {
+    local folder_name=$1
+    local target_path=$2
+
+    if [ -z "$folder_name" ] || [ -z "$target_path" ]; then
+        echo "Usage: track <package_name> <target_path>"
+        echo "Example: track nvim ~/.config/nvim"
+        return 1
+    fi
+
+    # 1. Expand the tilde (~) to full path
+    target_path="${target_path/#\~/$HOME}"
+
+    echo "📦 Tracking $folder_name at $target_path..."
+
+    # 2. Add to map.conf
+    echo "$folder_name=$target_path" >> ~/dotfiles/map.conf
+
+    # 3. Create the structure in dotfiles
+    mkdir -p ~/dotfiles/"$folder_name"
+
+    # 4. Run 'up' to let the Absorb logic handle the rest
+    up
+}
+
 # --- THE MASTER UP FUNCTION ---
 up() {
     echo "🔄 Updating System..."
