@@ -4,25 +4,23 @@ This repository contains my personal configurations (Hyprland, Waybar, Alacritty
 
 ---
 
-## 🛠️ 1. Prerequisites
-Before starting, ensure you have the necessary tools installed on your new Linux distribution:
+## ⚡ 1. Fast Track (Automatic Setup)
+If you are on a fresh Arch Linux install, run this single command to update your system, install your apps (Brave, VS Code, etc.), and link all your configs:
 
 ```bash
-# Example for Arch Linux
-sudo pacman -S git stow github-cli
+git clone [https://github.com/imadvs/dotfiles.git](https://github.com/imadvs/dotfiles.git) ~/dotfiles && cd ~/dotfiles && chmod +x install.sh && ./install.sh
 
 ```
 
 ---
 
-## 📥 2. Clone the Repository
+## 🛠️ 2. Prerequisites
 
-Clone your dotfiles into your home directory. It **must** be named `dotfiles` for the scripts to work correctly.
+If you prefer to do things manually, ensure you have these tools first:
 
 ```bash
-cd ~
-git clone [https://github.com/imadvs/dotfiles.git](https://github.com/imadvs/dotfiles.git)
-cd dotfiles
+# Example for Arch Linux
+sudo pacman -S git stow github-cli
 
 ```
 
@@ -33,16 +31,14 @@ cd dotfiles
 Instead of copying files, we create "bridges" (symbolic links). This makes the folders in `~/.config` point directly to your `~/dotfiles` folder.
 
 ```bash
-# Link the Hyprland config
-stow hypr
-
-# Link the Ayaka theme (including custom wallpapers)
-stow ayaka
+# To link everything at once:
+cd ~/dotfiles
+stow */
 
 ```
 
-> [!IMPORTANT]
-> If you get a "conflict" error, it means a real folder already exists in `~/.config`. Delete that folder first (`rm -rf ~/.config/folder_name`) and run the `stow` command again.
+> [!TIP]
+> **No more conflict errors!** My `install.sh` script now automatically detects and removes real folders in `~/.config` or `~/` that would cause a stow conflict, making the restoration process hands-free.
 
 ---
 
@@ -74,19 +70,34 @@ readme
 
 ---
 
-## 🖼️ 5. Verify the Setup
+## 🖼️ 5. Wallpapers & Assets
 
-Once stowed, your theme folder should show the "link" icon (the arrow). You can verify this in the terminal:
+I keep my wallpapers organized in two places:
+
+1. **Theme Assets**: Located in `ayaka/` for the Omarchy theme picker.
+2. **Personal Vault**: Located in `backgrounds/` which links to `~/Pictures/Wallpapers`.
+
+To verify your links are active, run:
 
 ```bash
-ls -la ~/.config/omarchy/themes/
+ls -la ~/.config | grep "->"
 
 ```
-
-* **Correct Output:** `ayaka -> /home/imad/dotfiles/ayaka/...`
 
 ---
 
 ## ✅ Finished!
 
-Your computer is now synced. Any wallpaper added to `~/dotfiles/ayaka/.config/omarchy/themes/ayaka/backgrounds/` will now automatically appear in your laptop's theme picker.
+Your computer is now synced. Any wallpaper added to your dotfiles will be tracked, and your `install.sh` ensures you can recreate this exact environment on any machine in minutes.
+
+```
+
+### Next Step:
+Now that your README is updated, run your backup command one last time to push the new documentation and your finalized `install.sh` to GitHub:
+
+```bash
+dots
+
+```
+
+**Would you like me to show you how to add your VS Code extensions to the `install.sh` so your coding environment also restores itself automatically?**
