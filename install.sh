@@ -2,9 +2,9 @@
 
 echo "🚀 Starting System Restoration..."
 
-# 1. Update & Core Tools
+# 1. Update & Install Core Tools (added fastfetch here)
 sudo pacman -Syu --noconfirm
-sudo pacman -S --needed --noconfirm stow
+sudo pacman -S --needed --noconfirm stow fastfetch
 
 # 2. Yay & AUR Apps
 if ! command -v yay &> /dev/null; then
@@ -15,6 +15,24 @@ fi
 
 echo "🌐 Installing Browser & VS Code..."
 yay -S --needed --noconfirm brave-bin visual-studio-code-bin
+
+# --- VS Code Extensions ---
+echo "📦 Installing VS Code Extensions..."
+EXTENSIONS=(
+    "github.copilot"
+    "github.copilot-chat"
+    "github.remotehub"
+    "ms-vscode.azure-repos"
+    "ms-vscode.cmake-tools"
+    "ms-vscode.cpptools"
+    "ms-vscode.cpptools-extension-pack"
+    "ms-vscode.cpptools-themes"
+    "ms-vscode.remote-repositories"
+)
+
+for ext in "${EXTENSIONS[@]}"; do
+    code --install-extension "$ext" --force
+done
 
 # 3. Apply ALL Dotfiles
 echo "🔗 Linking dotfiles with Stow..."
@@ -37,17 +55,14 @@ for target in "${!FOLDER_MAP[@]}"; do
     mkdir -p "$(dirname "$DEST")"
 
     if [ -L "$DEST" ]; then
-        # On your current laptop: Just keeps things synced
         stow "$target" 2>/dev/null
         echo "✅ $target is synced."
     elif [ -e "$DEST" ]; then
-        # On your current laptop: Absorbs your "real" changes into dotfiles
         echo "📥 New data found at $DEST. Absorbing into dotfiles..."
         cp -ru "$DEST"/. "$HOME/dotfiles/$target/" 2>/dev/null
         rm -rf "$DEST"
         stow "$target"
     else
-        # On a NEW laptop: Simply creates the link
         echo "📦 Stowing $target (New Installation)..."
         stow "$target"
     fi

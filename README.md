@@ -73,3 +73,17 @@ To create this file, run:
 Paste the text above and save it. Then run `dots` to push your new documentation to GitHub!
 
 **Would you like me to help you add a "System Status" section to the README that shows your hardware specs?**
+
+## 🖥️ System Status
+Current hardware configuration powered by these dotfiles:
+
+| Component | Specification |
+| :--- | :--- |
+| **OS** | Arch Linux |
+| **Window Manager** | Hyprland |
+| **Terminal** | Ghostty |
+| **Shell** | Bash |
+| **CPU** | [Insert your CPU, e.g., Ryzen 7] |
+| **GPU** | [Insert your GPU, e.g., NVIDIA RTX 3060] |
+
+> **Pro Tip:** Run `fastfetch` in the terminal to see live hardware metrics.

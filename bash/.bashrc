@@ -39,3 +39,11 @@ up() {
     echo "✅ All systems updated and cleaned!"
     cd - > /dev/null
 }
+
+# --- CUSTOM STARTUP ---
+if [[ $- == *i* ]]; then  # Only run in interactive sessions
+    clear
+    fastfetch --logo arch_small --color-keys blue --color-title cyan
+    echo -e "Welcome back, Imad! 🚀 System is \e[32mReady\e[0m."
+    echo -e "--------------------------------------------------\n"
+fi
