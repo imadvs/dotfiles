@@ -5,11 +5,8 @@
 source ~/.local/share/omarchy/default/bash/rc
 
 # --- ALIASES ---
-alias restore='cd ~/dotfiles && git fetch origin && git reset --hard origin/main && ./install.sh'
 alias readme='nvim ~/dotfiles/README.md'
-alias dots='cd ~/dotfiles && git add . && git commit -m "Update $(date)" && git push && cd -'
-alias pkm='cd ~/Documents/PKM && git pull && git add . && git commit -m "Update: $(date)" && git push && cd -'
-alias reload='source ~/.bashrc && echo "♻️ Shell Reloaded"'
+alias dots='cd ~/dotfiles && git add . && git commit && git push && cd -'
 
 # --- AUTOMATION FUNCTIONS ---
 
@@ -34,34 +31,8 @@ track() {
     echo "$folder_name=$portable_path" >> ~/dotfiles/map.conf
     mkdir -p ~/dotfiles/"$folder_name"
 
-    # Stage changes so 'up' can pull/rebase without errors
-    git -C ~/dotfiles add .
-    
-    # Run up to finish the absorption and linking
-    up
 }
 
-# The Master Update Function
-up() {
-    echo "🔄 Updating System..."
-    sudo pacman -Syu --noconfirm
-
-    echo "🧹 Cleaning Package Cache..."
-    sudo pacman -Sc --noconfirm 2>/dev/null
-    
-    if command -v yay &> /dev/null; then
-        yay -Sc --noconfirm 2>/dev/null
-    fi
-
-    echo "📂 Syncing Dotfiles..."
-    cd ~/dotfiles && git pull --rebase
-
-    # Run the installer
-    ./install.sh
-    
-    cd - > /dev/null
-    echo "✅ All systems updated and cleaned!"
-}
 
 # --- CUSTOM STARTUP (Welcome Screen) ---
 clear
