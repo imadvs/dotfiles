@@ -1,6 +1,8 @@
-# Dotfiles Restoration Guide
+# 🚀 Imad's Dotfiles
 
-## Quick Start (New System)
+![Setup Preview](screenshot.png)
+
+Personal configuration files for Omarchy OS (Arch-based Hyprland distribution).
 ```bash
 # 1. Clone the repo & Run restore script
 git clone git@github.com:imadvs/dotfiles.git ~/dotfiles
@@ -46,3 +48,4 @@ dotfiles/
 ├── restore.sh      → Restoration script
 └── map.conf        → Symlink mappings
 ```
+![Screenshot](screenshot.png)
