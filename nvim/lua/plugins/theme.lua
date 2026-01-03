@@ -1,1 +1,1 @@
-../../theme/neovim.lua
+/home/imad/dotfiles/my-themes/IMAD/neovim.lua
