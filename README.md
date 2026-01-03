@@ -2,10 +2,8 @@
 
 ## Quick Start (New System)
 ```bash
-# 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/dotfiles.git ~/dotfiles
-
-# 2. Run restore script
+# 1. Clone the repo & Run restore script
+git clone git@github.com:imadvs/dotfiles.git ~/dotfiles
 ~/dotfiles/restore.sh
 
 # 3. Install required packages
