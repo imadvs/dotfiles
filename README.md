@@ -10,9 +10,6 @@ To mirror your workstation on a brand-new machine, run these three commands:
 
 ```bash
 git clone https://github.com/imadvs/dotfiles.git ~/dotfiles
-cd ~/dotfiles && ./install.sh
-source ~/.bashrc
-
 ```
 
 ---
