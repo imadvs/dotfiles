@@ -42,6 +42,9 @@ backup_if_exists ~/.config/ghostty
 backup_if_exists ~/.config/waybar
 backup_if_exists ~/.config/nvim
 backup_if_exists ~/Pictures/Wallpapers
+backup_if_exists ~/.config/btop
+backup_if_exists ~/.config/walker
+backup_if_exists ~/.config/mako
 backup_if_exists ~/.config/omarchy/themes/imadtheme
 
 # Create symlinks
@@ -60,6 +63,9 @@ create_link "$DOTFILES_DIR/ghostty" ~/.config/ghostty
 create_link "$DOTFILES_DIR/waybar" ~/.config/waybar
 create_link "$DOTFILES_DIR/nvim" ~/.config/nvim
 create_link "$DOTFILES_DIR/backgrounds" ~/Pictures/Wallpapers
+create_link "$DOTFILES_DIR/btop" ~/.config/btop
+create_link "$DOTFILES_DIR/walker" ~/.config/walker
+create_link "$DOTFILES_DIR/mako" ~/.config/mako
 
 # Setup IMAD theme
 echo ""

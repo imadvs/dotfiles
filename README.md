@@ -29,6 +29,9 @@ nvim  # Let LazyVim install plugins
 - **Waybar** - Status bar
 - **Ghostty** - Terminal emulator
 - **Neovim** - LazyVim configuration
+- **btop** - System monitor
+- **walker** - App launcher
+- **mako** - Notification daemon
 - **IMAD Theme** - Custom red accent theme
 - **Wallpapers** - 67 curated 4K images
 
