@@ -6,20 +6,18 @@ Personal configuration files for Omarchy OS (Arch-based Hyprland distribution).
 
 ## 🚀 Quick Setup (New Laptop)
 ```bash
-# 1. Clone the repo
+# 1. Clone dotfiles
 git clone git@github.com:imadvs/dotfiles.git ~/dotfiles
 
-# 2. Run restore script (does everything automatically)
+# 2. Install packages (OPTIONAL - can skip and do manually)
+~/dotfiles/install-packages.sh
+
+# 3. Setup configs
 ~/dotfiles/restore.sh
 
-# 3. Install required packages (see PACKAGES.md)
-sudo pacman -S hyprland waybar neovim git fastfetch
-yay -S ghostty
+# 4. Done! Reload everything
+source ~/.bashrc && hyprctl reload && nvim # Let LazyVim install plugins
 
-# 4. Reload everything
-source ~/.bashrc
-hyprctl reload
-nvim  # Let LazyVim install plugins
 ```
 
 ## ✅ What Gets Restored
@@ -47,8 +45,8 @@ dotfiles/
 ├── my-themes/IMAD/    # Custom theme
 ├── restore.sh         # Automated setup
 ├── test.sh            # Verify symlinks
-├── map.conf           # Symlink mappings
 └── PACKAGES.md        # Package list
+└── install-packages.sh  # Install system packages
 ```
 
 ## 🎯 Custom Commands
