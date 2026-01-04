@@ -2,89 +2,136 @@
 
 ![Setup Preview](screenshot.png)
 
-Personal configuration files for Omarchy OS (Arch-based Hyprland distribution).
+> My personal Arch Linux (Omarchy OS) configuration with Hyprland, featuring a custom red-accent theme and automated setup.
 
-## 🚀 Quick Setup (New Laptop)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+## ✨ Features
+
+- 🎨 **Custom IMAD Theme** - Red accent colors across all applications
+- ⚡ **One-command Setup** - Fully automated installation
+- 🪟 **Hyprland** - Modern tiling Wayland compositor
+- 📊 **Complete System** - Terminal, editor, status bar, launcher, notifications
+- 🖼️ **67 Curated Wallpapers** - 4K anime & tech themed
+- ✅ **Tested & Verified** - Health check script included
+
+## 🚀 Quick Setup
 ```bash
-# 1. Clone dotfiles
-git clone git@github.com:imadvs/dotfiles.git ~/dotfiles
+# 1. Clone the repository
+git clone https://github.com/imadvs/dotfiles.git ~/dotfiles
 
-# 2. Install packages (OPTIONAL - can skip and do manually)
+# 2. Install packages (optional - automated)
 ~/dotfiles/install-packages.sh
 
 # 3. Setup configs
 ~/dotfiles/restore.sh
 
-# 4. Done! Reload everything
-source ~/.bashrc && hyprctl reload && nvim # Let LazyVim install plugins
-
+# 4. Reload everything
+source ~/.bashrc
+hyprctl reload
 ```
 
-## ✅ What Gets Restored
+## 📦 What's Included
 
-- **Bash** - Shell with custom aliases (dots, dotsc, track)
-- **Hyprland** - Window manager with custom keybindings
-- **Waybar** - Status bar
-- **Ghostty** - Terminal emulator
-- **Neovim** - LazyVim configuration
-- **btop** - System monitor
-- **walker** - App launcher
-- **mako** - Notification daemon
-- **IMAD Theme** - Custom red accent theme
-- **Wallpapers** - 67 curated 4K images
+| Component | Description |
+|-----------|-------------|
+| **Hyprland** | Wayland compositor with custom keybindings |
+| **Waybar** | Status bar with custom styling |
+| **Ghostty** | Fast GPU-accelerated terminal |
+| **Neovim** | LazyVim configuration with custom theme |
+| **btop** | System monitor with custom colors |
+| **walker** | App launcher with theme integration |
+| **mako** | Notification daemon |
+| **IMAD Theme** | Consistent red-accent theme across all apps |
 
-## 📂 File Structure
+## 🎨 Theme Preview
+
+**Colors:**
+- Background: `#262626`
+- Foreground: `#e6e6e6`
+- Accent: `#e65c5c` (Red)
+- Borders: 10px rounded with red active borders
+- Transparency: Blur effects enabled
+
+## 📂 Structure
 ```
 dotfiles/
 ├── bash/              # Shell configuration
-├── hypr/              # Hyprland WM
+├── hypr/              # Hyprland window manager
 ├── waybar/            # Status bar
 ├── ghostty/           # Terminal
 ├── nvim/              # Neovim (LazyVim)
-├── backgrounds/       # 67 wallpapers
+├── btop/              # System monitor
+├── walker/            # App launcher
+├── mako/              # Notifications
+├── backgrounds/       # Wallpapers (67 images)
 ├── my-themes/IMAD/    # Custom theme
-├── restore.sh         # Automated setup
-├── test.sh            # Verify symlinks
-└── PACKAGES.md        # Package list
-└── install-packages.sh  # Install system packages
+├── install-packages.sh # Package installer
+├── restore.sh         # Config setup
+└── test.sh            # Health check
 ```
 
-## 🎯 Custom Commands
+## 🎯 Custom Features
 
-- `dots` - Quick commit & push with timestamp
-- `dotsc "message"` - Commit with custom message
-- `readme` - Edit this README
+### Bash Aliases
+- `dots` - Quick commit and push with timestamp
+- `dotsc "msg"` - Commit with custom message
+- `readme` - Edit README
 - `track <name> <path>` - Track new config
+
+### Hyprland Keybindings
+- `SUPER + Enter` - Launch terminal
+- `SUPER + Q` - Close window
+- `CTRL + SHIFT + [1-9]` - Switch group tabs
+- `SUPER + CTRL + G` - Toggle window grouping
+- See `hypr/bindings.conf` for full list
+
+## 🔧 Requirements
+
+- **OS:** Arch Linux / Omarchy OS
+- **Display Server:** Wayland
+- **Dependencies:** See [PACKAGES.md](PACKAGES.md)
 
 ## 🆘 Troubleshooting
 
-### Theme not loading
+### Verify Setup
+```bash
+~/dotfiles/test.sh
+```
+
+### Theme Not Loading
 ```bash
 cd ~/dotfiles/my-themes/IMAD
 rm -f theme.conf && ln -sf hyprland.conf theme.conf
 hyprctl reload
 ```
 
-### Nvim theme broken
+### Neovim Theme Issues
 ```bash
 rm ~/.config/nvim/lua/plugins/theme.lua
 ln -sf ~/dotfiles/my-themes/IMAD/neovim.lua ~/.config/nvim/lua/plugins/theme.lua
 ```
 
-### Verify everything works
-```bash
-~/dotfiles/test.sh
-```
+## 📸 Screenshots
 
-## 🔐 SSH Setup (First Time)
-```bash
-ssh-keygen -t ed25519 -C "your_email@gmail.com"
-cat ~/.ssh/id_ed25519.pub
-# Add to: https://github.com/settings/keys
-```
+*Add more screenshots here if you want*
+
+## 🤝 Contributing
+
+Feel free to fork and customize for your own setup! If you find improvements, PRs are welcome.
+
+## 📜 License
+
+MIT License - Feel free to use and modify!
+
+## 🙏 Acknowledgments
+
+- [Omarchy OS](https://omarchy.org) - Base distribution
+- [Hyprland](https://hyprland.org) - Window manager
+- [LazyVim](https://www.lazyvim.org) - Neovim config
 
 ---
 
-**Author:** Imad  
-**Last Updated:** January 3, 2026  
-**License:** Personal use - Feel free to fork!
+**⭐ If you found this useful, consider giving it a star!**
+
+Made with ❤️ by [Imad](https://github.com/imadvs)
