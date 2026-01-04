@@ -45,7 +45,6 @@ backup_if_exists ~/Pictures/Wallpapers
 backup_if_exists ~/.config/btop
 backup_if_exists ~/.config/walker
 backup_if_exists ~/.config/mako
-backup_if_exists ~/.config/omarchy/themes/imadtheme
 
 # Create symlinks
 echo ""
@@ -79,7 +78,6 @@ rm -f "$DOTFILES_DIR/nvim/lua/plugins/theme.lua"
 ln -sf "$DOTFILES_DIR/my-themes/IMAD/neovim.lua" "$DOTFILES_DIR/nvim/lua/plugins/theme.lua"
 
 # Link theme to Omarchy
-create_link "$DOTFILES_DIR/my-themes/IMAD" ~/.config/omarchy/themes/imadtheme
 
 echo ""
 echo "✅ Dotfiles restored successfully!"

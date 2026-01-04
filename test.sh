@@ -26,7 +26,6 @@ check_link ~/Pictures/Wallpapers
 check_link ~/.config/btop
 check_link ~/.config/walker
 check_link ~/.config/mako
-check_link ~/.config/omarchy/themes/imadtheme
 
 echo ""
 echo "Internal symlinks:"
