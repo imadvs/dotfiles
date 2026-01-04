@@ -22,3 +22,4 @@ clear
 fastfetch --logo arch_small
 echo -e "\nWelcome back, Imad! 🚀 System is \e[32mReady\e[0m."
 echo -e "--------------------------------------------------\n"
+export PATH="$HOME/.local/bin:$PATH"
