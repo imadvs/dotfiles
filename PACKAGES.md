@@ -17,7 +17,12 @@ sudo pacman -S \
 
 ## AUR Packages (yay/paru)
 ```bash
-yay -S ghostty
+yay -S \
+    ghostty \
+    brave-bin \
+    google-chrome \
+    visual-studio-code-bin \
+    antigravity
 ```
 
 ## Optional Tools

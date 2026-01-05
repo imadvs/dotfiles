@@ -29,7 +29,34 @@ sudo pacman -S --needed \
 # AUR packages
 echo ""
 echo "Installing AUR packages..."
-yay -S --needed ghostty
+yay -S --needed \
+    ghostty \
+    brave-bin \
+    google-chrome \
+    visual-studio-code-bin \
+    antigravity
+
+# Install VS Code Extensions
+if command -v code &> /dev/null; then
+    echo ""
+    echo "Installing VS Code extensions..."
+    if [ -f "$HOME/dotfiles/vscode/extensions.txt" ]; then
+        while read -r extension; do
+            code --install-extension "$extension"
+        done < "$HOME/dotfiles/vscode/extensions.txt"
+    fi
+fi
+
+# Install Antigravity Extensions
+if command -v antigravity &> /dev/null; then
+    echo ""
+    echo "Installing Antigravity extensions..."
+    if [ -f "$HOME/dotfiles/antigravity/extensions.txt" ]; then
+        while read -r extension; do
+            antigravity --install-extension "$extension"
+        done < "$HOME/dotfiles/antigravity/extensions.txt"
+    fi
+fi
 
 echo ""
 echo "✅ All packages installed!"

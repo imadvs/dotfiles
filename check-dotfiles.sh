@@ -53,6 +53,15 @@ check_symlink "$DOTFILES_DIR/walker" ~/.config/walker "Walker"
 check_symlink "$DOTFILES_DIR/mako" ~/.config/mako "Mako"
 check_symlink "$DOTFILES_DIR/backgrounds" ~/Pictures/Wallpapers "Wallpapers"
 
+check_symlink "$DOTFILES_DIR/backgrounds" ~/Pictures/Wallpapers "Wallpapers"
+
+echo ""
+echo "💻 Checking Application Configs..."
+check_symlink "$DOTFILES_DIR/vscode/settings.json" ~/.config/Code/User/settings.json "VS Code Settings"
+check_symlink "$DOTFILES_DIR/vscode/snippets" ~/.config/Code/User/snippets "VS Code Snippets"
+check_symlink "$DOTFILES_DIR/antigravity/settings.json" ~/.config/Antigravity/User/settings.json "Antigravity Settings"
+check_symlink "$DOTFILES_DIR/antigravity/snippets" ~/.config/Antigravity/User/snippets "Antigravity Snippets"
+
 echo ""
 echo "📋 Checking important files..."
 check_file_exists "$DOTFILES_DIR/hypr/hyprland.conf" "Hyprland config"
@@ -60,7 +69,7 @@ check_file_exists "$DOTFILES_DIR/bash/.bashrc" "Bashrc"
 
 echo ""
 echo "🔧 Checking required commands..."
-commands=("hyprctl" "waybar" "nvim" "git" "fastfetch" "btop" "ghostty")
+commands=("hyprctl" "waybar" "nvim" "git" "fastfetch" "btop" "ghostty" "code" "antigravity" "google-chrome-stable" "brave")
 for cmd in "${commands[@]}"; do
     if command -v "$cmd" &> /dev/null; then
         echo "✅ $cmd"

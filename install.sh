@@ -67,6 +67,12 @@ backup_target ~/.config/btop
 backup_target ~/.config/walker
 backup_target ~/.config/mako
 
+# VS Code & Antigravity (Files, not whole dirs)
+backup_target ~/.config/Code/User/settings.json
+backup_target ~/.config/Code/User/snippets
+backup_target ~/.config/Antigravity/User/settings.json
+backup_target ~/.config/Antigravity/User/snippets
+
 # Create symlinks
 echo ""
 echo "🔗 Creating symlinks..."
@@ -96,6 +102,12 @@ create_link "$DOTFILES_DIR/walker" ~/.config/walker
 create_link "$DOTFILES_DIR/ghostty" ~/.config/ghostty
 create_link "$DOTFILES_DIR/nvim" ~/.config/nvim
 create_link "$DOTFILES_DIR/btop" ~/.config/btop
+
+# VS Code & Antigravity (Specific files only to avoid syncing cache)
+create_link "$DOTFILES_DIR/vscode/settings.json" ~/.config/Code/User/settings.json
+create_link "$DOTFILES_DIR/vscode/snippets" ~/.config/Code/User/snippets
+create_link "$DOTFILES_DIR/antigravity/settings.json" ~/.config/Antigravity/User/settings.json
+create_link "$DOTFILES_DIR/antigravity/snippets" ~/.config/Antigravity/User/snippets
 
 # Wallpapers
 create_link "$DOTFILES_DIR/backgrounds" ~/Pictures/Wallpapers

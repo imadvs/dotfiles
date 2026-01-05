@@ -1,0 +1,10 @@
+franneck94.c-cpp-runner
+github.copilot
+github.copilot-chat
+harryhopkinson.vim-theme
+ms-vscode.cmake-tools
+ms-vscode.cpptools
+ms-vscode.cpptools-extension-pack
+ms-vscode.cpptools-themes
+vadimcn.vscode-lldb
+vscodevim.vim

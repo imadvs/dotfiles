@@ -14,6 +14,7 @@ Beautiful, minimal Hyprland setup for Omarchy OS (Arch-based).
 - **Mako** - Notification daemon
 - **Walker** - Application launcher
 - **Btop** - System monitor
+- **Apps** - VS Code, Antigravity, Brave, Chrome (configs & extensions sync included)
 
 ## 📦 Quick Install
 
@@ -53,6 +54,8 @@ hyprctl reload
 ├── btop/              # System monitor
 ├── mako/              # Notifications
 ├── walker/            # App launcher
+├── vscode/            # VS Code settings & extensions
+├── antigravity/       # Antigravity settings & extensions
 ├── my-themes/IMAD/    # Custom theme
 ├── backgrounds/       # Wallpapers
 ├── install.sh         # Main installer
