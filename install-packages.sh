@@ -9,8 +9,22 @@ if ! command -v yay &> /dev/null; then
     echo "   sudo pacman -S --needed git base-devel"
     echo "   git clone https://aur.archlinux.org/yay.git"
     echo "   cd yay && makepkg -si"
+    echo "   cd yay && makepkg -si"
     exit 1
 fi
+
+# Remove pre-installed bloatware (as requested)
+echo ""
+echo "🧹 Removing pre-installed apps..."
+BLOAT_PKGS="chromium 1password typora hey"
+for pkg in $BLOAT_PKGS; do
+    if pacman -Qi $pkg &> /dev/null; then
+        echo "  Removing $pkg..."
+        sudo pacman -Rns --noconfirm $pkg || echo "  ⚠️ Could not remove $pkg (might be protected or dependencies)"
+    else
+        echo "  $pkg not found (already removed or named differently)"
+    fi
+done
 
 # Core packages
 echo "Installing core packages..."
@@ -56,6 +70,16 @@ if command -v antigravity &> /dev/null; then
             antigravity --install-extension "$extension"
         done < "$HOME/dotfiles/antigravity/extensions.txt"
     fi
+fi
+
+# Set Default Browser
+if command -v xdg-mime &> /dev/null; then
+    echo ""
+    echo "🎨 Setting Google Chrome as default browser..."
+    xdg-mime default google-chrome.desktop x-scheme-handler/http
+    xdg-mime default google-chrome.desktop x-scheme-handler/https
+    xdg-mime default google-chrome.desktop text/html
+    echo "  ✓ Default browser set"
 fi
 
 echo ""
