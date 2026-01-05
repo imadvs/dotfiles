@@ -3,7 +3,7 @@
 echo "🔍 Checking Omarchy Dotfiles Setup..."
 echo ""
 
-DOTFILES_DIR="$HOME/dotfiles"
+DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 all_good=true
 
 check_symlink() {

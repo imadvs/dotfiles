@@ -1,8 +1,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Source Omarchy defaults
-source ~/.local/share/omarchy/default/bash/rc
+# Source Omarchy defaults (if they exist)
+if [ -f ~/.local/share/omarchy/default/bash/rc ]; then
+    source ~/.local/share/omarchy/default/bash/rc
+fi
 
 # --- ALIASES ---
 alias readme='nvim ~/dotfiles/README.md'

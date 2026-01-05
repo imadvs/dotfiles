@@ -20,37 +20,66 @@ mkdir -p ~/.config
 mkdir -p ~/Pictures/Wallpapers
 mkdir -p ~/.local/share/omarchy/themes
 
-# Backup existing configs
-echo "💾 Backing up existing configs..."
-timestamp=$(date +%s)
+# Backup setup
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+BACKUP_DIR="$HOME/dotfiles_backups/$TIMESTAMP"
 
-backup_if_exists() {
-    if [ -e "$1" ] && [ ! -L "$1" ]; then
-        echo "  Backing up: $1"
-        mv "$1" "$1.backup.$timestamp"
-    elif [ -L "$1" ]; then
-        echo "  Removing old symlink: $1"
-        rm "$1"
+echo "💾 Backing up existing configs to: $BACKUP_DIR"
+
+backup_target() {
+    local target=$1
+    local name=$(basename "$target")
+    local parent_dir=$(dirname "$target")
+    
+    # Check if target exists and is NOT a symlink to our dotfiles
+    if [ -e "$target" ] || [ -L "$target" ]; then
+        # If it's already a correct symlink, do nothing or just remove it to refresh?
+        # Let's remove symlinks to ensure we refresh them, but move real files to backup.
+        
+        if [ -L "$target" ]; then
+            # It's a symlink
+            local current_link=$(readlink -f "$target")
+            if [[ "$current_link" == "$DOTFILES_DIR"* ]]; then
+                echo "  Refreshing link: $target"
+                rm "$target"
+            else
+                echo "  Moving external symlink: $target -> $BACKUP_DIR"
+                mkdir -p "$BACKUP_DIR/${parent_dir#$HOME/}"
+                mv "$target" "$BACKUP_DIR/${parent_dir#$HOME/}/$name"
+            fi
+        else
+            # It's a real file/directory
+            echo "  Backing up: $target -> $BACKUP_DIR"
+            mkdir -p "$BACKUP_DIR/${parent_dir#$HOME/}"
+            mv "$target" "$BACKUP_DIR/${parent_dir#$HOME/}/$name"
+        fi
     fi
 }
 
-backup_if_exists ~/.bashrc
-backup_if_exists ~/.bash_profile
-backup_if_exists ~/.config/hypr
-backup_if_exists ~/.config/ghostty
-backup_if_exists ~/.config/waybar
-backup_if_exists ~/.config/nvim
-backup_if_exists ~/.config/btop
-backup_if_exists ~/.config/walker
-backup_if_exists ~/.config/mako
+# List of files/configs to backup before linking
+backup_target ~/.bashrc
+backup_target ~/.bash_profile
+backup_target ~/.config/hypr
+backup_target ~/.config/ghostty
+backup_target ~/.config/waybar
+backup_target ~/.config/nvim
+backup_target ~/.config/btop
+backup_target ~/.config/walker
+backup_target ~/.config/mako
 
 # Create symlinks
 echo ""
 echo "🔗 Creating symlinks..."
 
 create_link() {
-    echo "  $1 -> $2"
-    ln -sf "$1" "$2"
+    local source=$1
+    local target=$2
+    
+    # Ensure parent dir exists
+    mkdir -p "$(dirname "$target")"
+    
+    echo "  $source -> $target"
+    ln -sf "$source" "$target"
 }
 
 # Bash configs
