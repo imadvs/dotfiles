@@ -38,7 +38,14 @@ sudo pacman -S --needed \
     tree \
     ripgrep \
     fd \
-    fzf
+    fzf \
+    yazi \
+    ffmpeg \
+    7zip \
+    jq \
+    poppler \
+    imagemagick \
+    zoxide
 
 # AUR packages
 echo ""

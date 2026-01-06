@@ -109,6 +109,9 @@ create_link "$DOTFILES_DIR/vscode/snippets" ~/.config/Code/User/snippets
 create_link "$DOTFILES_DIR/antigravity/settings.json" ~/.config/Antigravity/User/settings.json
 create_link "$DOTFILES_DIR/antigravity/snippets" ~/.config/Antigravity/User/snippets
 
+# Yazi (Uncomment after moving config to ~/dotfiles/yazi)
+# create_link "$DOTFILES_DIR/yazi" ~/.config/yazi
+
 # Wallpapers
 create_link "$DOTFILES_DIR/backgrounds" ~/Pictures/Wallpapers
 

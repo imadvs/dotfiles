@@ -9,6 +9,7 @@ Beautiful, minimal Hyprland setup for Omarchy OS (Arch-based).
 - **Hyprland** - Tiling Wayland compositor
 - **Waybar** - Stylish status bar
 - **Ghostty** - Fast GPU-accelerated terminal
+- **Yazi** - Terminal file manager (with zoxide, fzf, 7zip, etc.)
 - **Neovim** - Modern text editor
 - **Custom IMAD Theme** - Personal color scheme and styling
 - **Mako** - Notification daemon
@@ -60,8 +61,7 @@ hyprctl reload
 ├── backgrounds/       # Wallpapers
 ├── install.sh         # Main installer
 ├── install-packages.sh # Package installer
-├── check-dotfiles.sh  # Verify setup
-└── PACKAGES.md        # Package list
+└── check-dotfiles.sh  # Verify setup
 ```
 
 ## 🛠️ Useful Commands
@@ -119,10 +119,6 @@ dots "Updated Hyprland keybinds"
 The **IMAD** theme is located in `my-themes/IMAD/`. To apply:
 1. Symlink is auto-created to `~/.local/share/omarchy/themes/IMAD`
 2. Apply in Omarchy settings GUI
-
-## 📋 Package List
-
-See [PACKAGES.md](PACKAGES.md) for the complete list of required packages.
 
 ## 🐛 Troubleshooting
 

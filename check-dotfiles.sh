@@ -69,7 +69,7 @@ check_file_exists "$DOTFILES_DIR/bash/.bashrc" "Bashrc"
 
 echo ""
 echo "🔧 Checking required commands..."
-commands=("hyprctl" "waybar" "nvim" "git" "fastfetch" "btop" "ghostty" "code" "antigravity" "google-chrome-stable" "brave")
+commands=("hyprctl" "waybar" "nvim" "git" "fastfetch" "btop" "ghostty" "code" "antigravity" "google-chrome-stable" "brave" "yazi")
 for cmd in "${commands[@]}"; do
     if command -v "$cmd" &> /dev/null; then
         echo "✅ $cmd"
