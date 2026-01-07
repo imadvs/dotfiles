@@ -255,10 +255,24 @@ else
     echo "⚠️  No current theme selected. Please use your theme switcher to select a theme."
 fi
 
+# --- Final Verification ---
+echo ""
+echo "🔍 Verifying critical links..."
+check_link() {
+    if [ ! -e "$1" ]; then
+        echo "  ❌ Broken or missing: $1"
+    else
+        echo "  ✅ Valid: $1"
+    fi
+}
+check_link ~/.config/hypr/theme.conf
+check_link ~/.config/waybar/style.css
+check_link ~/.config/omarchy/current/theme
+
 echo ""
 echo "✅ Dotfiles installed successfully!"
 echo ""
 echo "📋 Next steps:"
 echo "  1. Reload configs: source ~/.bashrc && hyprctl reload"
-echo "  2. Apply theme in Omarchy settings"
+echo "  2. Apply theme in Omarchy settings if needed."
 echo ""
