@@ -217,6 +217,44 @@ if [ -d "$DOTFILES_DIR/my-themes/IMAD" ]; then
     create_link "$DOTFILES_DIR/my-themes/IMAD" ~/.local/share/omarchy/themes/IMAD
 fi
 
+# --- Dynamic Theme Linking (Fix for Theme Switcher) ---
+echo ""
+echo "🎨 Setting up Dynamic Theme Links..."
+
+# Ensure the dynamic theme directory structure exists (defaulting to IMAD if fresh)
+if [ ! -d "$HOME/.config/omarchy/current" ]; then
+    echo "  Initializing dynamic theme structure..."
+    mkdir -p "$HOME/.config/omarchy"
+    # Create 'current' dir if not exists
+    mkdir -p "$HOME/.config/omarchy/current"
+    # Link 'theme' to default IMAD theme if not already linked
+    if [ ! -L "$HOME/.config/omarchy/current/theme" ]; then
+         # Check if IMAD theme is installed, link it. Otherwise link forest-green or what's available.
+         if [ -d "$HOME/.local/share/omarchy/themes/IMAD" ]; then
+             ln -sf "$HOME/.local/share/omarchy/themes/IMAD" "$HOME/.config/omarchy/current/theme"
+             echo "  Default theme set to: IMAD"
+         elif [ -d "$HOME/.local/share/omarchy/themes/forest-green" ]; then
+             ln -sf "$HOME/.local/share/omarchy/themes/forest-green" "$HOME/.config/omarchy/current/theme"
+             echo "  Default theme set to: forest-green"
+         fi
+    fi
+fi
+
+# Create usage links (These point to the DYNAMIC path, not static files)
+# This ensures that when 'current/theme' changes, these apps update automatically.
+if [ -L "$HOME/.config/omarchy/current/theme" ]; then
+    echo "  Linking apps to dynamic theme..."
+    ln -sf ~/.config/omarchy/current/theme/hyprland.conf ~/.config/hypr/theme.conf
+    ln -sf ~/.config/omarchy/current/theme/waybar.css ~/.config/waybar/style.css
+    ln -sf ~/.config/omarchy/current/theme/style.css ~/.config/swayosd/style.css
+    ln -sf ~/.config/omarchy/current/theme/walker.css ~/.config/walker/style.css 
+    ln -sf ~/.config/omarchy/current/theme/btop.theme ~/.config/btop/themes/current.theme
+    # Ghostty usually handles its own config inclusion, but we ensure the link exists
+    # If ghostty config sources a file, we don't need to link the main config, just ensure the source target exists.
+else
+    echo "⚠️  No current theme selected. Please use your theme switcher to select a theme."
+fi
+
 echo ""
 echo "✅ Dotfiles installed successfully!"
 echo ""
