@@ -23,19 +23,23 @@ On a fresh Omarchy OS installation:
 
 ```bash
 # 1. Clone dotfiles
-git clone git@github.com:imadvs/dotfiles.git ~/dotfiles
+git clone https://github.com/imadvs/dotfiles.git ~/dotfiles
 
-# 2. Install everything
+# 2. Run the all-in-one installer
 cd ~/dotfiles
 chmod +x install.sh
 ./install.sh
 
-# 3. Reload configs
-source ~/.bashrc
+# 3. Reload session
 hyprctl reload
-
-# 4. Apply IMAD theme in Omarchy settings
+source ~/.bashrc
 ```
+
+> **Note:** The `install.sh` script will automatically:
+> - Install all required packages (Hyprland, Waybar, VS Code, Chrome, etc.)
+> - Remove pre-installed bloatware
+> - Link all configs and styles
+> - Set up the "Imad Style" theme mechanism
 
 ## 🔧 Configuration Structure
 

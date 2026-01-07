@@ -213,8 +213,14 @@ create_link "$DOTFILES_DIR/antigravity/snippets" ~/.config/Antigravity/User/snip
 create_link "$DOTFILES_DIR/backgrounds" ~/Pictures/Wallpapers
 
 # Theme (if exists)
-if [ -d "$DOTFILES_DIR/my-themes/IMAD" ]; then
-    create_link "$DOTFILES_DIR/my-themes/IMAD" ~/.local/share/omarchy/themes/IMAD
+if [ -d "$DOTFILES_DIR/my-themes" ]; then
+    echo "🎨 Installing themes..."
+    for theme in "$DOTFILES_DIR/my-themes"/*; do
+        if [ -d "$theme" ]; then
+            theme_name=$(basename "$theme")
+            create_link "$theme" "$HOME/.local/share/omarchy/themes/$theme_name"
+        fi
+    done
 fi
 
 # --- Dynamic Theme Linking (Fix for Theme Switcher) ---
