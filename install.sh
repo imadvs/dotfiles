@@ -6,6 +6,8 @@ echo ""
 
 DOTFILES_DIR="$HOME/dotfiles"
 
+# --- PART 1: PRE-CHECKS & PACKAGES ---
+
 # Check if we're in the right place
 if [ ! -d "$DOTFILES_DIR" ]; then
     echo "❌ Error: $DOTFILES_DIR not found!"
@@ -14,8 +16,106 @@ if [ ! -d "$DOTFILES_DIR" ]; then
     exit 1
 fi
 
+echo "📦 Checking system and packages..."
+
+# Check if yay is installed
+if ! command -v yay &> /dev/null; then
+    echo "⚠️  yay not found! Attempting to install..."
+    if command -v pacman &> /dev/null; then
+         sudo pacman -S --needed git base-devel
+         git clone https://aur.archlinux.org/yay.git
+         cd yay && makepkg -si
+         cd .. && rm -rf yay
+    else
+         echo "❌ pacman not found. Is this Arch/Omarchy?"
+         exit 1
+    fi
+fi
+
+# Remove pre-installed bloatware (as requested)
+echo ""
+echo "🧹 Removing pre-installed apps..."
+BLOAT_PKGS="chromium 1password typora hey"
+for pkg in $BLOAT_PKGS; do
+    if pacman -Qi $pkg &> /dev/null; then
+        echo "  Removing $pkg..."
+        sudo pacman -Rns --noconfirm $pkg || echo "  ⚠️ Could not remove $pkg (might be protected or dependencies)"
+    else
+        echo "  $pkg not found (already removed)"
+    fi
+done
+
+# Core packages
+echo ""
+echo "📦 Installing core packages..."
+sudo pacman -S --needed \
+    hyprland \
+    waybar \
+    neovim \
+    git \
+    fastfetch \
+    btop \
+    tree \
+    ripgrep \
+    fd \
+    fzf \
+    yazi \
+    ffmpeg \
+    7zip \
+    jq \
+    poppler \
+    imagemagick \
+    zoxide
+
+# AUR packages
+echo ""
+echo "📦 Installing AUR packages..."
+yay -S --needed \
+    ghostty \
+    brave-bin \
+    google-chrome \
+    visual-studio-code-bin \
+    antigravity
+
+# Install VS Code Extensions
+if command -v code &> /dev/null; then
+    echo ""
+    echo "🧩 Installing VS Code extensions..."
+    if [ -f "$DOTFILES_DIR/vscode/extensions.txt" ]; then
+        while read -r extension; do
+            code --install-extension "$extension"
+        done < "$DOTFILES_DIR/vscode/extensions.txt"
+    fi
+fi
+
+# Install Antigravity Extensions
+if command -v antigravity &> /dev/null; then
+    echo ""
+    echo "🧩 Installing Antigravity extensions..."
+    if [ -f "$DOTFILES_DIR/antigravity/extensions.txt" ]; then
+        while read -r extension; do
+            antigravity --install-extension "$extension"
+        done < "$DOTFILES_DIR/antigravity/extensions.txt"
+    fi
+fi
+
+# Set Default Browser
+if command -v xdg-mime &> /dev/null; then
+    echo ""
+    echo "🎨 Setting Google Chrome as default browser..."
+    xdg-mime default google-chrome.desktop x-scheme-handler/http
+    xdg-mime default google-chrome.desktop x-scheme-handler/https
+    xdg-mime default google-chrome.desktop text/html
+    echo "  ✓ Default browser set"
+fi
+
+
+# --- PART 2: DOTFILES & CONFIGS ---
+
+echo ""
+echo "📂 Setting up Dotfiles..."
+
 # Create necessary directories
-echo "📁 Creating directories..."
 mkdir -p ~/.config
 mkdir -p ~/Pictures/Wallpapers
 mkdir -p ~/.local/share/omarchy/themes
@@ -33,9 +133,6 @@ backup_target() {
     
     # Check if target exists and is NOT a symlink to our dotfiles
     if [ -e "$target" ] || [ -L "$target" ]; then
-        # If it's already a correct symlink, do nothing or just remove it to refresh?
-        # Let's remove symlinks to ensure we refresh them, but move real files to backup.
-        
         if [ -L "$target" ]; then
             # It's a symlink
             local current_link=$(readlink -f "$target")
@@ -124,12 +221,6 @@ echo ""
 echo "✅ Dotfiles installed successfully!"
 echo ""
 echo "📋 Next steps:"
-echo "  1. Install packages: ~/dotfiles/install-packages.sh"
-echo "  2. Reload configs: source ~/.bashrc && hyprctl reload"
-echo "  3. Apply theme in Omarchy settings"
-echo ""
-echo "💡 Tips:"
-echo "  - Run 'check-dotfiles' to verify your setup"
-echo "  - Use 'dots' command to sync changes to GitHub"
-echo "  - Run 'reload-hypr' to reload all Hyprland configs"
+echo "  1. Reload configs: source ~/.bashrc && hyprctl reload"
+echo "  2. Apply theme in Omarchy settings"
 echo ""

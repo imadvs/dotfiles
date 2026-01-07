@@ -25,20 +25,16 @@ On a fresh Omarchy OS installation:
 # 1. Clone dotfiles
 git clone git@github.com:imadvs/dotfiles.git ~/dotfiles
 
-# 2. Install packages
+# 2. Install everything
 cd ~/dotfiles
-chmod +x install-packages.sh
-./install-packages.sh
-
-# 3. Install dotfiles (creates symlinks)
 chmod +x install.sh
 ./install.sh
 
-# 4. Reload configs
+# 3. Reload configs
 source ~/.bashrc
 hyprctl reload
 
-# 5. Apply IMAD theme in Omarchy settings
+# 4. Apply IMAD theme in Omarchy settings
 ```
 
 ## 🔧 Configuration Structure
@@ -59,8 +55,7 @@ hyprctl reload
 ├── antigravity/       # Antigravity settings & extensions
 ├── my-themes/IMAD/    # Custom theme
 ├── backgrounds/       # Wallpapers
-├── install.sh         # Main installer
-├── install-packages.sh # Package installer
+├── install.sh         # Main installer (Packages + Dotfiles)
 └── check-dotfiles.sh  # Verify setup
 ```
 
