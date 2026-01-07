@@ -245,7 +245,7 @@ fi
 if [ -L "$HOME/.config/omarchy/current/theme" ]; then
     echo "  Linking apps to dynamic theme..."
     ln -sf ~/.config/omarchy/current/theme/hyprland.conf ~/.config/hypr/theme.conf
-    ln -sf ~/.config/omarchy/current/theme/waybar.css ~/.config/waybar/style.css
+    ln -sf ~/.local/share/omarchy/config/waybar/style.css ~/.config/waybar/style.css
     ln -sf ~/.config/omarchy/current/theme/style.css ~/.config/swayosd/style.css
     ln -sf ~/.config/omarchy/current/theme/walker.css ~/.config/walker/style.css 
     ln -sf ~/.config/omarchy/current/theme/btop.theme ~/.config/btop/themes/current.theme
